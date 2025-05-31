@@ -21,15 +21,15 @@
 <form class="authenticate center" action="/login" method="post">
     @csrf
     <h1 class="page__title">ログイン</h1>
-    <label for="mail" class="entry__name">メールアドレス</label>
-    <input name="email" id="mail" type="email" class="input" value="{{ old('email') }}">
+    <label class="entry__name" for="mail">メールアドレス</label>
+    <input class="input" name="email" id="mail" type="email" value="{{ old('email') }}">
     <div class="form__error">
         @error('email')
         {{ $message }}
         @enderror
     </div>
-    <label for="password" class="entry__name">パスワード</label>
-    <input name="password" id="password" type="password" class="input">
+    <label class="entry__name" for="password">パスワード</label>
+    <input class="input" name="password" id="password" type="password">
     <div class="form__error">
         @error('password')
         {{ $message }}
