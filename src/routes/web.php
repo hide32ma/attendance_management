@@ -6,6 +6,10 @@ use App\Http\Controllers\AuthController;
 
 
 
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +21,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::get('/', function () {
-// return view('auth.register');
-// });
+// ミドルウェアにより、未ログインの場合はloginページが表示される
+// ログインされていれば、出勤登録画面（一般ユーザー）が表示される
+Route::middleware('auth')->group(function () {
+    Route::get('/', [AuthController::class, 'start']);
+});
 
-Route::get('/', [AuthController::class, 'index']);
+// ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
+Route::post('/login', [AuthController::class, 'login']);
+

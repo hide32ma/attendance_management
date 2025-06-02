@@ -24,6 +24,17 @@
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH">
                 </a>
             </h1>
+            <ul class="header-nav">
+                <!-- ログイン済みの時だけ表示する -->
+                @if (Auth::check())
+                <li class="header-nav__item">
+                    <!-- ログアウト機能 -->
+                    <form class="logout__form" action="/logout" method="post"></form>
+                    @csrf
+                    <button class="logout__button">ログアウト</button>
+                </li>
+                @endif
+            </ul>
         </header>
     </div>
 
@@ -35,4 +46,5 @@
 
     </main>
 </body>
+
 </html>
