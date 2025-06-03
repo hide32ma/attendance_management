@@ -32,8 +32,9 @@ Route::middleware('auth')->group(function () {
 
 // 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述
 
-// 独自のルートにすると、バリデーションはLoginRequest似て変更できたがFortifyのログイン機能が使えなくなる為、こちらはNGとする
+// 独自のルートにすると、バリデーションはLoginRequestにて変更できたがFortifyのログイン機能が使えなくなる為、こちらはNGとする
 
 // Route::post('/login', [AuthController::class, 'login']);
+
 
 

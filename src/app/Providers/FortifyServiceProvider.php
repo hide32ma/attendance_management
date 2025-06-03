@@ -56,12 +56,12 @@ class FortifyServiceProvider extends ServiceProvider
 
         // GETメソッドで/registerにアクセスしたときに表示するviewファイル
         Fortify::registerView(function () {
-                return view('auth.register');
+                return view('auth.staff_register');
         });
 
         // GETメソッドで/loginにアクセスしたときに表示するviewファイル
         Fortify::loginView(function () {
-                return view('auth.login');
+                return view('auth.staff_login');
         });
 
         // login処理の実行回数を1分あたり10回までに制限

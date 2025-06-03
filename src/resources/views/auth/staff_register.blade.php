@@ -47,5 +47,6 @@
     <button class="btn btn--big">登録する</button>
     <a href="/login" class="link">ログインはこちら</a>
 </form>
+    <a href="/admin/login" class="link">管理者ログインはこちら</a>
 
 @endsection
