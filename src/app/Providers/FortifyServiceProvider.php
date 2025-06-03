@@ -8,10 +8,16 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+// LoginRequestを読み込む
+use App\Http\Requests\LoginRequest;
+
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+
+// 追記
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,6 +37,8 @@ class FortifyServiceProvider extends ServiceProvider
 
         // 新規ユーザの登録処理
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        // COACHTECH Laravel 3-5 ユーザー認証について学ぼう 今回使わない機能に関しては消去との事なので以下の機能は今は消去しておく
         // Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         // Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         // Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
@@ -62,6 +70,9 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(10)->by($email . $request->ip());
         });
+
+        //デフォルトのログイン機能にあるフォームリクエストを自作のものに代替するため、サービスコンテナにバインド
+        app()->bind(FortifyLoginRequest::class, LoginRequest::class);
     }
 
 }

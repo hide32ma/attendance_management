@@ -23,10 +23,17 @@ use App\Http\Controllers\AuthController;
 
 // ミドルウェアにより、未ログインの場合はloginページが表示される
 // ログインされていれば、出勤登録画面（一般ユーザー）が表示される
+// COACHTECH 3-5 ユーザー認証について学ぼう 14.認証ミドルウェアの作成
 Route::middleware('auth')->group(function () {
     Route::get('/', [AuthController::class, 'start']);
 });
 
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
-Route::post('/login', [AuthController::class, 'login']);
+
+// 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述
+
+// 独自のルートにすると、バリデーションはLoginRequest似て変更できたがFortifyのログイン機能が使えなくなる為、こちらはNGとする
+
+// Route::post('/login', [AuthController::class, 'login']);
+
 

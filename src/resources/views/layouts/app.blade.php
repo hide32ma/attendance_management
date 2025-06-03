@@ -29,9 +29,10 @@
                 @if (Auth::check())
                 <li class="header-nav__item">
                     <!-- ログアウト機能 -->
-                    <form class="logout__form" action="/logout" method="post"></form>
+                    <form class="logout__form" action="/logout" method="post">
                     @csrf
                     <button class="logout__button">ログアウト</button>
+                    </form>
                 </li>
                 @endif
             </ul>
