@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 // Userモデルを読み込む
 use App\Models\User;
 
-// LoginRequestを読み込む
-use App\Http\Requests\LoginRequest;
+// StaffLoginRequestを読み込む
+use App\Http\Requests\StaffLoginRequest;
 
 class StaffAuthController extends Controller
 {
@@ -19,7 +19,7 @@ class StaffAuthController extends Controller
     }
 
     // loginアクションで(LoginRequest.phpを読み込んで)auth/staff_login.blade.phpを表示する
-    public function login(LoginRequest $request)
+    public function login(StaffLoginRequest $request)
     {
         return view('auth.staff_login');
     }

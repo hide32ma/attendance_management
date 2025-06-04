@@ -18,6 +18,7 @@
 
 
 <!-- authenticate = 認証する -->
+<!-- Fortify -->
 <form class="authenticate center" action="/login" method="post">
     @csrf
     <h1 class="page__title">ログイン</h1>

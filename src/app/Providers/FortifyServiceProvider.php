@@ -8,8 +8,8 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-// LoginRequestを読み込む
-use App\Http\Requests\LoginRequest;
+// StaffLoginRequestを読み込む
+use App\Http\Requests\StaffLoginRequest;
 
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -72,7 +72,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         //デフォルトのログイン機能にあるフォームリクエストを自作のものに代替するため、サービスコンテナにバインド
-        app()->bind(FortifyLoginRequest::class, LoginRequest::class);
+        app()->bind(FortifyLoginRequest::class, StaffLoginRequest::class);
     }
 
 }
