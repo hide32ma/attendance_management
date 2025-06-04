@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StaffAuthController;
 
+use App\Http\Controllers\AdminAuthController;
 
 
 
@@ -25,7 +26,7 @@ use App\Http\Controllers\AuthController;
 // ログインされていれば、出勤登録画面（一般ユーザー）が表示される
 // COACHTECH 3-5 ユーザー認証について学ぼう 14.認証ミドルウェアの作成
 Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'start']);
+    Route::get('/', [StaffAuthController::class, 'start']);
 });
 
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
@@ -36,5 +37,7 @@ Route::middleware('auth')->group(function () {
 
 // Route::post('/login', [AuthController::class, 'login']);
 
+
+Route::get('/admin/login', [AdminAuthController::class, 'login']);
 
 
