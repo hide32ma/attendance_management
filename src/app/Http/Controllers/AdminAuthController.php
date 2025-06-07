@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 // Authファサードを読み込む
 use Illuminate\Support\Facades\Auth;
 
+
+
 class AdminAuthController extends Controller
 {
-    public function login()
+    // 管理者ログインページを表示します
+    public function showLogin()
     {
         return view('auth.admin_login');
     }

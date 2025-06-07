@@ -15,5 +15,6 @@
 @section('content')
 
 <div>勤務一覧画面（一般ユーザー）</div>
+<div>ログイン時のみ表示</div>
 
 @endsection
