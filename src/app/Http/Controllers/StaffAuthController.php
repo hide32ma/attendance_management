@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 // Userモデルを読み込む
 use App\Models\User;
 
+
 // StaffLoginRequestを読み込む
 use App\Http\Requests\StaffLoginRequest;
 
@@ -31,6 +32,10 @@ class StaffAuthController extends Controller
         $user = $request->only(['name','email','password']);
         user::create($user);
     }
+
+
+
+
 
 
 

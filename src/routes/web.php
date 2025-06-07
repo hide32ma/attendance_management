@@ -37,8 +37,12 @@ Route::middleware('auth')->group(function () {
 
 // Route::post('/login', [AuthController::class, 'login']);
 
-// 管理者ログイン画面を表示
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin']);
+
+
+Route::post('/attendance', [AdminAuthController::class, 'showLogin']);
+
+
+
 
 
 

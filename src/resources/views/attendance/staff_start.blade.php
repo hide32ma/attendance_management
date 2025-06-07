@@ -17,4 +17,9 @@
 <div>勤怠登録画面（一般ユーザー）</div>
 <div>ログイン時のみ表示</div>
 
+
+<div>
+    <div>{!! nl2br(e($nowDateTime)) !!}</div>
+</div>
+
 @endsection
