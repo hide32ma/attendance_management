@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 // Userモデルを読み込む
 use App\Models\User;
+// Attendanceモデルを読み込む
+use App\Models\Attendance;
+
+
+
+
 
 
 // StaffLoginRequestを読み込む

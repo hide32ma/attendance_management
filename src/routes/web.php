@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::post('/attendance', [AdminAuthController::class, 'showLogin']);
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin']);
 
 
 

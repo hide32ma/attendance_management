@@ -19,7 +19,9 @@
 
 
 <div>
+    <!-- 現在の時間が表示され -->
     <div>{!! nl2br(e($nowDateTime)) !!}</div>
+
 </div>
 
 @endsection

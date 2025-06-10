@@ -41,4 +41,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // 複数あるattendancesテーブルのレコード（データ）を取得するリレーション
+    public function attendances()
+    {
+        return $this->hasMany('App\Models\Attendance');
+    }
+
 }
