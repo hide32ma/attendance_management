@@ -29,4 +29,7 @@
     <button class="btn btn--big">管理者ログインする</button>
 </form>
 
+<a href="/login" class="link">一般ログインはこちら</a>
+
+
 @endsection

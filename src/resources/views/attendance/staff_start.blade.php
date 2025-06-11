@@ -3,7 +3,7 @@
 
 @section('css')
 <!-- このページで使用するcssを呼び出し -->
-<link rel="stylesheet" href="{{ asset('css/start.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/staff_start.css') }}" />
 @endsection
 
 

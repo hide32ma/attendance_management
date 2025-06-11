@@ -6,7 +6,9 @@ use App\Http\Controllers\StaffAuthController;
 
 use App\Http\Controllers\AdminAuthController;
 
+use Illuminate\Support\Facades\Auth;
 
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 
 
@@ -38,10 +40,23 @@ Route::middleware('auth')->group(function () {
 // Route::post('/login', [AuthController::class, 'login']);
 
 
+// function = 名前のない関数(Fortifyなどで使える)
+Route::get('/admin/login', function () {
+    return view('auth.admin_login');
+});
+// admin(管理者)のFortifyログイン
+Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 
-Route::get('/admin/login', [AdminAuthController::class, 'showLogin']);
+// function = 名前のない関数(Fortifyなどで使える)
+Route::get('/admin/attendance/list', function () {
+    return view('attendance.admin_index');
+});
 
-
+// 管理者ログアウト
+Route::post('/admin/attendance/list', function () {
+    Auth::guard('admin')->logout();
+    return redirect('/admin/login');
+})->name('admin.logout');
 
 
 

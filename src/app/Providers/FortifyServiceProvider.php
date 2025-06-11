@@ -2,19 +2,31 @@
 
 namespace App\Providers;
 
+
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
-use Illuminate\Cache\RateLimiting\Limit;
+
 use Illuminate\Http\Request;
+
+
+use Illuminate\Cache\RateLimiting\Limit;
+
+// 追記しました
+use Illuminate\Support\Facades\Auth;
+// 追記しました
+use Illuminate\Support\Facades\Hash;
 // StaffLoginRequestを読み込む
 use App\Http\Requests\StaffLoginRequest;
+// 追記しました
+use App\Models\Admin;
 
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 // 追記
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
@@ -72,7 +84,46 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         //デフォルトのログイン機能にあるフォームリクエストを自作のものに代替するため、サービスコンテナにバインド
+        // (バリデーションメッセージがこれにより変わります)
         app()->bind(FortifyLoginRequest::class, StaffLoginRequest::class);
-    }
 
+        // admin(管理者)もFortifyを使用できるようにする
+        Fortify::authenticateUsing(function (Request $request) {
+            if ($request->is('admin/login')) {
+                // 管理者ログイン処理
+                $admin = Admin::where('email', $request->email)->first();
+                if ($admin && Hash::check($request->password, $admin->password)) {
+                    Auth::guard('admin')->login($admin);
+                    return $admin;
+                }
+                return null;
+            }
+
+            // 一般ユーザー認証（手動）
+            $user = \App\Models\User::where('email', $request->email)->first();
+            if ($user && Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+                return $user;
+            }
+            // 通常のユーザーログイン（Fortifyが処理）
+            return null;
+        });
+
+        // ログイン後のリダイレクト制御
+        app()->singleton(\Laravel\Fortify\Contracts\LoginResponse::class, function () {
+            return new class implements \Laravel\Fortify\Contracts\LoginResponse {
+                public function toResponse($request)
+                {
+                    if ($request->is('admin/login')) {
+                        // 管理者の場合のリダイレクト先
+                        return redirect('/admin/attendance/list');
+                    }
+                    // 一般ユーザーの場合のリダイレクト先
+                    return redirect('/');
+                }
+            };
+        });
+
+
+    }
 }
