@@ -26,15 +26,27 @@
             </h1>
             <ul class="header-nav">
                 <!-- ログイン済みの時だけ表示する -->
-                @if (Auth::check())
+                <!-- 一般ユーザー用 -->
+                @auth
                 <li class="header-nav__item">
                     <!-- ログアウト機能 -->
                     <form class="logout__form" action="/logout" method="post">
-                    @csrf
-                    <button class="logout__button">ログアウト</button>
+                        @csrf
+                        <button class="logout__button">ログアウト</button>
                     </form>
                 </li>
-                @endif
+                @endauth
+
+                <!-- 管理者用 -->
+                @auth('admin')
+                <li class="header-nav__item">
+                    <!-- ログアウト機能 -->
+                    <form class="logout__form" action="/logout" method="post">
+                        @csrf
+                        <button class="logout__button">ログアウト</button>
+                    </form>
+                </li>
+                @endauth
             </ul>
         </header>
     </div>

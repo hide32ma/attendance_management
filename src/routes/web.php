@@ -8,6 +8,8 @@ use App\Http\Controllers\AdminAuthController;
 
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Session;
+
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 
@@ -41,6 +43,7 @@ Route::middleware('auth')->group(function () {
 
 
 // function = 名前のない関数(Fortifyなどで使える)
+// コントローラー管理にするとバリデーションを引き継げないためこの表示方法
 Route::get('/admin/login', function () {
     return view('auth.admin_login');
 });
@@ -48,19 +51,11 @@ Route::get('/admin/login', function () {
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 
 // function = 名前のない関数(Fortifyなどで使える)
+// これは一時的
+// あとでコントローラを使って表示させる
 Route::get('/admin/attendance/list', function () {
     return view('attendance.admin_index');
 });
-
-// 管理者ログアウト
-Route::post('/admin/attendance/list', function () {
-    Auth::guard('admin')->logout();
-    return redirect('/admin/login');
-})->name('admin.logout');
-
-
-
-
 
 
 

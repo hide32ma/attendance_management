@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StaffLoginRequest;
 // 追記しました
 use App\Models\Admin;
+// 追記しました
+use App\Models\User;
+
 
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -30,6 +33,12 @@ use Laravel\Fortify\Contracts\LoginResponse;
 
 // 追記
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+
+// 追記
+use Laravel\Fortify\Contracts\LogoutResponse;
+
+// 追記
+use Illuminate\Support\Facades\Session;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -94,15 +103,21 @@ class FortifyServiceProvider extends ServiceProvider
                 $admin = Admin::where('email', $request->email)->first();
                 if ($admin && Hash::check($request->password, $admin->password)) {
                     Auth::guard('admin')->login($admin);
+
+                    Session::put('logged_in_guard', 'admin');
+
                     return $admin;
                 }
                 return null;
             }
 
             // 一般ユーザー認証（手動）
-            $user = \App\Models\User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password)) {
                 Auth::login($user);
+
+                Session::put('logged_in_guard', 'user');
+
                 return $user;
             }
             // 通常のユーザーログイン（Fortifyが処理）
@@ -110,19 +125,36 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         // ログイン後のリダイレクト制御
-        app()->singleton(\Laravel\Fortify\Contracts\LoginResponse::class, function () {
-            return new class implements \Laravel\Fortify\Contracts\LoginResponse {
+        app()->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
                 public function toResponse($request)
                 {
-                    if ($request->is('admin/login')) {
+                    if (Auth::guard('admin')->check()){
                         // 管理者の場合のリダイレクト先
                         return redirect('/admin/attendance/list');
                     }
                     // 一般ユーザーの場合のリダイレクト先
-                    return redirect('/');
+                    return redirect('/login');
                 }
             };
         });
+
+        // 管理者ログアウト後のリダイレクト制御
+        // app()->singleton(LogoutResponse::class, function () {
+            // return new class implements LogoutResponse {
+                // public function toResponse($request)
+                // {
+
+                    // if (Auth::guard('admin')->check()) {
+                        // 管理者なら管理者ログインページへ
+                        // return redirect('/admin/login');
+                    // }
+
+                    // 一般ユーザーならユーザーログインページへ
+                    // return redirect('/login');
+                // }
+            // };
+        // });
 
 
     }
