@@ -38,15 +38,15 @@
                 @endauth
 
                 <!-- 管理者用 -->
-                @auth('admin')
-                <li class="header-nav__item">
+                <!-- @auth('admin') -->
+                <!-- <li class="header-nav__item"> -->
                     <!-- ログアウト機能 -->
-                    <form class="logout__form" action="/logout" method="post">
-                        @csrf
-                        <button class="logout__button">ログアウト</button>
-                    </form>
-                </li>
-                @endauth
+                    <!-- <form class="logout__form" action="/logout" method="post"> -->
+                        <!-- @csrf -->
+                        <!-- <button class="logout__button">ログアウト</button> -->
+                    <!-- </form> -->
+                <!-- </li> -->
+                <!-- @endauth -->
             </ul>
         </header>
     </div>

@@ -18,7 +18,7 @@ class CreateBreaksTable extends Migration
             // 外部キーにて、attendance_idに紐付け
             $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
             // 休憩入り時間
-            $table->timestamp('break_start')->nullable();
+            $table->timestamp('break_start');
             // 休憩戻り時間
             $table->timestamp('break_end')->nullable();
             $table->timestamps();

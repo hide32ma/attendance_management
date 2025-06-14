@@ -21,7 +21,7 @@ class AdminFactory extends Factory
     {
         return [
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('testpass'),
+            'password' => Hash::make('11111111'),
         ];
     }
 }

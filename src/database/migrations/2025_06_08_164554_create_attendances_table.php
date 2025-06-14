@@ -25,6 +25,8 @@ class CreateAttendancesTable extends Migration
             $table->timestamp('clock_out')->nullable();
             // 勤務ステータス(状態)（勤務外 出勤中 休憩中 退勤済）
             $table->tinyInteger('status')->default(0);
+            // 同じ日に同じユーザーがデータを2個作れなくする
+            $table->unique(['user_id', 'work_date']);
             $table->timestamps();
         });
     }

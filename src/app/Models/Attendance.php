@@ -30,7 +30,7 @@ class Attendance extends Model
         return self::STATUS_LABELS[$this->status] ?? '不明';
     }
 
-    // 外部キーで関連づけられている主テーブル（usersテーブル）のレコードを取り出すリレーション
+    // 誰の出勤記録か？
     public function user():BelongsTo
     {
         return $this->belongsTo('App\Models\User');
