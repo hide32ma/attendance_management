@@ -43,7 +43,7 @@ class StaffAuthController extends Controller
         user::create($user);
     }
 
-    
+
 
 
 

@@ -30,6 +30,15 @@
     <!-- 現在の時間が表示される -->
     <div>{!! nl2br(e($nowDateTime)) !!}</div>
 
+    <!-- 出勤ボタン -->
+    @if($attendance && $attendance->status === \App\Models\Attendance::STATUS_OFF)
+    <form method="post" action="/attendance">
+        @csrf
+        <button type="submit">出勤</button>
+    </form>
+    @endif
+
+
 </div>
 
 @endsection

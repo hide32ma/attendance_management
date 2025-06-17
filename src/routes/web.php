@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Session;
 
+use App\Http\Controllers\StaffAttendanceController;
+
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 
@@ -32,7 +34,11 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [StaffAuthController::class, 'start']);
 });
-
+// 一般ユーザーの勤怠登録画面表示
+// ログインされていればページが表示される
+Route::middleware('auth')->group(function () {
+    Route::post('/attendance', [StaffAttendanceController::class, 'start']);
+});
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
 
 // 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述
@@ -47,6 +53,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/login', function () {
     return view('auth.admin_login');
 });
+
+
+
+
+
 // admin(管理者)のFortifyログイン
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 

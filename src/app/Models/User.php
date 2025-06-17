@@ -52,6 +52,7 @@ class User extends Authenticatable
             Attendance::create([
                 'user_id' => $user->id,
                 'status' => Attendance::STATUS_OFF,
+                
 
                 // ↓こちらがnotnullの為、ユーザー作成時、作成した時間を一時的に登録させる
                 // 'work_date' => today(),
