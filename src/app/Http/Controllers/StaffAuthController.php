@@ -22,8 +22,12 @@ class StaffAuthController extends Controller
     // startアクションで attendance/start.blade.phpを表示する
     public function start()
     {
-        return view('attendance.staff_start');
+        // 現在ログインしているユーザーのattendancesテーブルのデータを読み込む
+        $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+        return view('attendance.staff_start', ['attendances' => $attendances]);
     }
+
+
 
     // loginアクションで(LoginRequest.phpを読み込んで)auth/staff_login.blade.phpを表示する
     public function login(StaffLoginRequest $request)
@@ -38,6 +42,8 @@ class StaffAuthController extends Controller
         $user = $request->only(['name','email','password']);
         user::create($user);
     }
+
+    
 
 
 

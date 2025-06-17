@@ -15,11 +15,19 @@
 @section('content')
 
 <div>勤怠登録画面（一般ユーザー）</div>
-<div>ログイン時のみ表示</div>
+
 
 
 <div>
-    <!-- 現在の時間が表示され -->
+    <!-- 勤務ステータスが表示される -->
+    @foreach ($attendances as $attendance)
+    <tr>
+        <td>{{ $attendance->user->name }}</td>
+        <td>{{ $attendance->status_label }}</td>
+    </tr>
+    @endforeach
+
+    <!-- 現在の時間が表示される -->
     <div>{!! nl2br(e($nowDateTime)) !!}</div>
 
 </div>

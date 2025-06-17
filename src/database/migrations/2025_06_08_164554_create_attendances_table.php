@@ -18,12 +18,12 @@ class CreateAttendancesTable extends Migration
             // 外部キーにて、user_idに紐付け
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // 出勤年月日
-            $table->date('work_date');
+            $table->date('work_date')->nullable();
             // 出勤時間
             $table->timestamp('clock_in')->nullable();
             // 退勤時間
             $table->timestamp('clock_out')->nullable();
-            // 勤務ステータス(状態)（勤務外 出勤中 休憩中 退勤済）
+            // 勤務ステータス(状態)（0=勤務外 1=出勤中 2=休憩中 3=退勤済）
             $table->tinyInteger('status')->default(0);
             // 同じ日に同じユーザーがデータを2個作れなくする
             $table->unique(['user_id', 'work_date']);

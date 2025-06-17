@@ -10,6 +10,13 @@ class Attendance extends Model
 {
     use HasFactory;
 
+    // ↓これらの記述をしたからカラムにデータが入る訳ではない これらはルールを作っているだけ
+
+    // protected $fillable = ['user_id', 'status'];
+
+    protected $fillable = ['user_id', 'status', 'work_date', 'clock_in'];
+
+
     // 勤務ステータス定数
     public const STATUS_OFF = 0;
     public const STATUS_WORKING = 1;
@@ -25,10 +32,13 @@ class Attendance extends Model
     ];
 
     // ステータス表示用アクセサ
+    // ↓これが status_label として使えるようになる
     public function getStatusLabelAttribute()
     {
         return self::STATUS_LABELS[$this->status] ?? '不明';
     }
+
+
 
     // 誰の出勤記録か？
     public function user():BelongsTo

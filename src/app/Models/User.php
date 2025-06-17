@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Attendance;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -41,6 +43,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // ユーザーが作成された直後に勤務外レコードを作成
+            Attendance::create([
+                'user_id' => $user->id,
+                'status' => Attendance::STATUS_OFF,
+
+                // ↓こちらがnotnullの為、ユーザー作成時、作成した時間を一時的に登録させる
+                // 'work_date' => today(),
+                // 'clock_in' => now(),
+            ]);
+        });
+    }
+
 
     // 複数あるattendancesテーブルのレコード（データ）を取得するリレーション
     public function attendances()
