@@ -54,10 +54,6 @@ Route::get('/admin/login', function () {
     return view('auth.admin_login');
 });
 
-
-
-
-
 // admin(管理者)のFortifyログイン
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 

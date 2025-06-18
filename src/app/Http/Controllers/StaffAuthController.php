@@ -9,6 +9,8 @@ use App\Models\User;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 
+use Carbon\Carbon;
+
 
 
 
@@ -23,10 +25,13 @@ class StaffAuthController extends Controller
     public function start()
     {
         // 現在ログインしているユーザーのattendancesテーブルのデータを読み込む
-        $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+
+        $today = Carbon::today();
+        $attendances = Attendance::where('user_id', auth()->id())->whereDate('work_date',$today)->with('user')->get();
         return view('attendance.staff_start', ['attendances' => $attendances]);
     }
-
+    
 
 
     // loginアクションで(LoginRequest.phpを読み込んで)auth/staff_login.blade.phpを表示する
