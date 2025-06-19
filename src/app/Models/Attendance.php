@@ -46,8 +46,8 @@ class Attendance extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function breaks()
+    public function breakTimes()
     {
-        return $this->hasMany('App\Models\Break');
+        return $this->hasMany('App\Models\BreakTime');
     }
 }

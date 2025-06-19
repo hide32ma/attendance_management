@@ -11,7 +11,7 @@ use App\Models\Attendance;
 
 use Carbon\Carbon;
 
-
+use App\Models\BreakTime;
 
 
 
@@ -25,13 +25,47 @@ class StaffAuthController extends Controller
     public function start()
     {
         // 現在ログインしているユーザーのattendancesテーブルのデータを読み込む
-        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
 
-        $today = Carbon::today();
-        $attendances = Attendance::where('user_id', auth()->id())->whereDate('work_date',$today)->with('user')->get();
-        return view('attendance.staff_start', ['attendances' => $attendances]);
+
+        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+        // return view('attendance.staff_start', ['attendances' => $attendances]);
+
+        $today = Carbon::today()->toDateString();
+
+        $attendances = Attendance::where('user_id', auth()->id())
+            ->where(function ($query) use ($today) {
+                $query->whereDate('work_date', $today)
+                    ->orWhereNull('work_date');
+            })
+            ->with('user')
+            ->get();
+
+        return view('attendance.staff_start', ['attendances' => $attendances, 'today => $today']);
+
+
+
+        // ↓これだと、毎日の出勤ステータスが表示されてしまうのでNG
+
+        // {
+        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+        // return view('attendance.staff_start', ['attendances' => $attendances]);
+        // }
+
+
+        // 当日の出勤データのみが表示されるOK
+        // ダミーデータでもログインできる
+        // 日付が変わるとログインエラーになる
+
+        // $today = Carbon::today();
+
+        // $attendances = Attendance::where('user_id', auth()->id())
+            // ->where(function ($query) use ($today) {
+                // $query->whereDate('work_date', $today)->orWhereNull('work_date');
+            // })->with('user')->get();
+
+        // return view('attendance.staff_start', ['attendances' => $attendances]);
     }
-    
+
 
 
     // loginアクションで(LoginRequest.phpを読み込んで)auth/staff_login.blade.phpを表示する

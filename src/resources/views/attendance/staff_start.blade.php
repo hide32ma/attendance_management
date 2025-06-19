@@ -25,18 +25,50 @@
         <td>{{ $attendance->user->name }}</td>
         <td>{{ $attendance->status_label }}</td>
     </tr>
-    @endforeach
-
-    <!-- 現在の時間が表示される -->
-    <div>{!! nl2br(e($nowDateTime)) !!}</div>
 
     <!-- 出勤ボタン -->
-    @if($attendance && $attendance->status === \App\Models\Attendance::STATUS_OFF)
-    <form method="post" action="/attendance">
+    @if ($attendance && $attendance->status === \App\Models\Attendance::STATUS_OFF)
+    <form method="post" action="/attendance/start">
         @csrf
         <button type="submit">出勤</button>
     </form>
+    <!-- ステータスが出勤中のとき：休憩入＆退勤 -->
+    @elseif ($attendance && $attendance->status === \App\Models\Attendance::STATUS_WORKING)
+    <form method="post" action="/attendance/break-in">
+        @csrf
+        <button type="submit">休憩入</button>
+    </form>
+
+    <form method="post" action="/attendance/end">
+        @csrf
+        <button type="submit">退勤</button>
+    </form>
+
+    <!-- ステータスが休憩中のとき：休憩戻 -->
+    @elseif ($attendance && $attendance->status === \App\Models\Attendance::STATUS_BREAK)
+    <form method="post" action="/attendance/break-out">
+        @csrf
+        <button type="submit">休憩戻</button>
+    </form>
     @endif
+
+
+    @endforeach
+
+    <!-- フラッシュメッセージ -->
+    <!-- コントローラーから読み取っている -->
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+
+    <!-- 現在の時間が表示される -->
+    <!-- Carbonで読み取っている -->
+    <div>{!! nl2br(e($nowDateTime)) !!}</div>
+
+
 
 
 </div>

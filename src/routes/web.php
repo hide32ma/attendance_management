@@ -37,8 +37,25 @@ Route::middleware('auth')->group(function () {
 // 一般ユーザーの勤怠登録画面表示
 // ログインされていればページが表示される
 Route::middleware('auth')->group(function () {
-    Route::post('/attendance', [StaffAttendanceController::class, 'start']);
+    Route::post('/attendance/start', [StaffAttendanceController::class, 'start']);
 });
+
+// 退勤ボタンを押したら
+Route::middleware('auth')->group(function () {
+    Route::post('/attendance/end', [StaffAttendanceController::class, 'end']);
+});
+
+// 休憩入ボタンを押したら
+Route::middleware('auth')->group(function () {
+    Route::post('/attendance/break-in', [StaffAttendanceController::class, 'breakIn']);
+});
+// 休憩戻ボタンを押したら
+Route::middleware('auth')->group(function () {
+    Route::post('/attendance/break-out', [StaffAttendanceController::class, 'breakOut']);
+});
+
+
+
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
 
 // 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述

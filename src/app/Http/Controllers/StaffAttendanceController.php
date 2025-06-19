@@ -11,10 +11,12 @@ use App\Models\User;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 
+use App\Models\BreakTime;
+
 
 class StaffAttendanceController extends Controller
 {
-    // 出勤ボタンを押した時
+    // 出勤ボタンを押した時の処理
     public function start(Request $request)
     {
         $userId = $request->user()->id;
@@ -53,6 +55,75 @@ class StaffAttendanceController extends Controller
         $attendance->clock_in = now();
         $attendance->save();
 
-        return back()->with('success', '出勤しました！');
+        return back()->with('success', '出勤しました。');
+    }
+
+    // 退勤ボタンを押したときの処理
+    public function end(Request $request)
+    {
+        $userId = $request->user()->id;
+        $today = now()->toDateString();
+
+        $attendance = Attendance::where('user_id', $userId)
+            ->whereDate('work_date', $today)
+            ->first();
+
+        if ($attendance && $attendance->status === Attendance::STATUS_WORKING) {
+            $attendance->status = Attendance::STATUS_DONE; // 退勤済にする
+            $attendance->clock_out = now();               // 退勤時間を記録
+            $attendance->save();
+        }
+
+        return back()->with('success', 'お疲れ様でした。');
+    }
+
+    // 休憩入ボタンを押した時の処理
+    public function breakIn(Request $request)
+    {
+        $userId = $request->user()->id;
+        $today = now()->toDateString();
+
+        $attendance = Attendance::where('user_id', $userId)
+            ->whereDate('work_date', $today)
+            ->first();
+
+        if ($attendance && $attendance->status === Attendance::STATUS_WORKING) {
+            // 休憩レコード作成
+            $attendance->breakTimes()->create([
+                'break_start' => now(),
+            ]);
+
+            // ステータス変更
+            $attendance->status = Attendance::STATUS_BREAK;
+            $attendance->save();
+        }
+
+        return back()->with('success', '休憩に入りました。');
+    }
+
+    // 休憩戻ボタンを押した時の処理
+    public function breakOut(Request $request)
+    {
+        $userId = $request->user()->id;
+        $today = now()->toDateString();
+
+        $attendance = Attendance::where('user_id', $userId)
+            ->whereDate('work_date', $today)
+            ->first();
+
+        if ($attendance && $attendance->status === Attendance::STATUS_BREAK) {
+            // 最後の休憩レコードを取得
+            $latestBreak = $attendance->breakTimes()->latest()->first();
+
+            if ($latestBreak && is_null($latestBreak->break_end)) {
+                $latestBreak->break_end = now();
+                $latestBreak->save();
+            }
+
+            $attendance->status = Attendance::STATUS_WORKING;
+            $attendance->save();
+        }
+
+        return back()->with('success', '休憩が終わりました。');
     }
 }
