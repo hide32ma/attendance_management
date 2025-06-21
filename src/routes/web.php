@@ -39,12 +39,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/attendance/start', [StaffAttendanceController::class, 'start']);
 });
-
 // 退勤ボタンを押したら
 Route::middleware('auth')->group(function () {
     Route::post('/attendance/end', [StaffAttendanceController::class, 'end']);
 });
-
 // 休憩入ボタンを押したら
 Route::middleware('auth')->group(function () {
     Route::post('/attendance/break-in', [StaffAttendanceController::class, 'breakIn']);
@@ -53,7 +51,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/attendance/break-out', [StaffAttendanceController::class, 'breakOut']);
 });
-
+// 一般ユーザーの勤務一覧画面を表示
+// {year?}/{month?} これにより年月をURLで受け取れるようにする
+Route::middleware('auth')->group(function () {
+    Route::get('/staff/attendance/list/{year?}/{month?}', [StaffAttendanceController::class, 'list'])->name('staff.attendance.list');
+});
 
 
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
@@ -78,7 +80,7 @@ Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 // これは一時的
 // あとでコントローラを使って表示させる
 Route::get('/admin/attendance/list', function () {
-    return view('attendance.admin_index');
+    return view('attendance.admin_list');
 });
 
 

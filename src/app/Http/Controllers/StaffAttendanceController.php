@@ -13,6 +13,10 @@ use App\Models\Attendance;
 
 use App\Models\BreakTime;
 
+use Carbon\Carbon;
+
+use Carbon\CarbonPeriod;
+
 
 class StaffAttendanceController extends Controller
 {
@@ -126,4 +130,24 @@ class StaffAttendanceController extends Controller
 
         return back()->with('success', '休憩が終わりました。');
     }
+
+    // 一般ユーザーの勤務一覧画面
+    public function list($year = null, $month = null)
+    {
+        $userId = auth()->id();
+        $year = $year ?? Carbon::now()->year;
+        $month = $month ?? Carbon::now()->month;
+
+        $attendances = Attendance::where('user_id', $userId)
+            ->whereYear('work_date', $year)
+            ->whereMonth('work_date', $month)
+            ->orderBy('work_date', 'asc')
+            ->get();
+
+        $current = Carbon::createFromDate($year, $month, 1);
+
+        return view('attendance.staff_list', compact('attendances', 'current'));
+    }
 }
+
+

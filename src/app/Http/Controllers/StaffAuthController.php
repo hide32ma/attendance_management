@@ -22,49 +22,53 @@ use App\Http\Requests\StaffLoginRequest;
 class StaffAuthController extends Controller
 {
     // startアクションで attendance/start.blade.phpを表示する
+
     public function start()
     {
-        // 現在ログインしているユーザーのattendancesテーブルのデータを読み込む
-
-
-        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
-        // return view('attendance.staff_start', ['attendances' => $attendances]);
-
+        $userId = auth()->id();
         $today = Carbon::today()->toDateString();
 
-        $attendances = Attendance::where('user_id', auth()->id())
-            ->where(function ($query) use ($today) {
-                $query->whereDate('work_date', $today)
-                    ->orWhereNull('work_date');
-            })
+        // 今日の出勤データがなければ作成
+        // firstOrCreate これは「該当レコードがなければ作って、あればそのまま使う」便利な書き方
+        $attendance = Attendance::firstOrCreate(
+            ['user_id' => $userId, 'work_date' => $today],
+            ['status' => Attendance::STATUS_OFF]
+        );
+
+        $attendances = Attendance::where('user_id', $userId)
+            ->whereDate('work_date', $today)
             ->with('user')
             ->get();
 
-        return view('attendance.staff_start', ['attendances' => $attendances, 'today => $today']);
+        return view('attendance.staff_start', [
+            'attendances' => $attendances,
+            'today' => $today
+        ]);
 
 
 
-        // ↓これだと、毎日の出勤ステータスが表示されてしまうのでNG
 
-        // {
-        // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
-        // return view('attendance.staff_start', ['attendances' => $attendances]);
-        // }
+    // ↓これだと、毎日の出勤ステータスが表示されてしまうのでNG
+
+    // {
+    // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
+    // return view('attendance.staff_start', ['attendances' => $attendances]);
+    // }
 
 
-        // 当日の出勤データのみが表示されるOK
-        // ダミーデータでもログインできる
-        // 日付が変わるとログインエラーになる
+    // 当日の出勤データのみが表示されるOK
+    // ダミーデータでもログインできる
+    // 日付が変わるとログインエラーになる
 
-        // $today = Carbon::today();
+    // $today = Carbon::today();
 
-        // $attendances = Attendance::where('user_id', auth()->id())
-            // ->where(function ($query) use ($today) {
-                // $query->whereDate('work_date', $today)->orWhereNull('work_date');
-            // })->with('user')->get();
+    // $attendances = Attendance::where('user_id', auth()->id())
+    // ->where(function ($query) use ($today) {
+    // $query->whereDate('work_date', $today)->orWhereNull('work_date');
+    // })->with('user')->get();
 
-        // return view('attendance.staff_start', ['attendances' => $attendances]);
-    }
+    // return view('attendance.staff_start', ['attendances' => $attendances]);
+}
 
 
 
@@ -82,6 +86,8 @@ class StaffAuthController extends Controller
         user::create($user);
     }
 
+
+    
 
 
 
