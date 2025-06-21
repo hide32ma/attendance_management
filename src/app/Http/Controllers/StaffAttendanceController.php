@@ -132,22 +132,32 @@ class StaffAttendanceController extends Controller
     }
 
     // 一般ユーザーの勤務一覧画面
+
     public function list($year = null, $month = null)
     {
         $userId = auth()->id();
-        $year = $year ?? Carbon::now()->year;
-        $month = $month ?? Carbon::now()->month;
 
+        $current = Carbon::createFromDate($year ?? now()->year, $month ?? now()->month, 1);
+
+        // 月の始まりと終わり
+        $startOfMonth = $current->copy()->startOfMonth();
+        $endOfMonth = $current->copy()->endOfMonth();
+
+        // 全日付を取得
+        $daysInMonth = CarbonPeriod::create($startOfMonth, $endOfMonth);
+
+        // 該当月の出勤データを取得（キーを日付にしておくと便利）
         $attendances = Attendance::where('user_id', $userId)
-            ->whereYear('work_date', $year)
-            ->whereMonth('work_date', $month)
-            ->orderBy('work_date', 'asc')
-            ->get();
+            ->whereBetween('work_date', [$startOfMonth, $endOfMonth])
+            ->with('breakTimes')
+            ->get()
+            ->keyBy(function ($item) {
+                return Carbon::parse($item->work_date)->toDateString(); // '2023-06-01' 形式
+            });
 
-        $current = Carbon::createFromDate($year, $month, 1);
-
-        return view('attendance.staff_list', compact('attendances', 'current'));
+        return view('attendance.staff_list', compact('daysInMonth', 'attendances', 'current'));
     }
 }
+
 
 
