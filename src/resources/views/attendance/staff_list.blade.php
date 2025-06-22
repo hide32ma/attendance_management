@@ -3,7 +3,7 @@
 
 @section('css')
 <!-- このページで使用するcssを呼び出し -->
-<link rel="stylesheet" href="{{ asset('css/staff_index.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/staff_list.css') }}" />
 @endsection
 
 
@@ -101,8 +101,12 @@
 
             <!-- 詳細リンク -->
             <td>
-                <a href="#">詳細</a>
+
+                <a href="{{ route('staff.attendance.show', ['date' => $day->format('Y-m-d')]) }}">詳細</a>
+
+
             </td>
+
         </tr>
         @endforeach
 

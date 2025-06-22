@@ -56,6 +56,15 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/staff/attendance/list/{year?}/{month?}', [StaffAttendanceController::class, 'list'])->name('staff.attendance.list');
 });
+// 一般ユーザーの勤務詳細画面を表示
+Route::middleware('auth')->group(function () {
+    Route::get('/staff/attendance/{date}', [StaffAttendanceController::class, 'show'])->name('staff.attendance.show');
+});
+// 勤務修正申請
+Route::middleware('auth')->group(function () {
+    Route::post('/staff/attendance/{date}/update', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
+});
+
 
 
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる

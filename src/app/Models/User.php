@@ -49,15 +49,14 @@ class User extends Authenticatable
     {
         static::created(function ($user) {
             // ユーザーが作成された直後に勤務外レコードを作成
-            Attendance::create([
-                'user_id' => $user->id,
-                'status' => Attendance::STATUS_OFF,
-                
+            // Attendance::create([
+                // 'user_id' => $user->id,
+                // 'status' => Attendance::STATUS_OFF,
 
                 // ↓こちらがnotnullの為、ユーザー作成時、作成した時間を一時的に登録させる
                 // 'work_date' => today(),
                 // 'clock_in' => now(),
-            ]);
+            // ]);
         });
     }
 

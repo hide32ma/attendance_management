@@ -50,4 +50,9 @@ class Attendance extends Model
     {
         return $this->hasMany('App\Models\BreakTime');
     }
+
+    public function application()
+    {
+        return $this->hasMany('App\Models\Attendance_Application');
+    }
 }

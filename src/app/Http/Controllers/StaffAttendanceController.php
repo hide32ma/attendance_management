@@ -11,11 +11,17 @@ use App\Models\User;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 
+use App\Models\Attendance_application;
+
 use App\Models\BreakTime;
 
 use Carbon\Carbon;
 
 use Carbon\CarbonPeriod;
+
+// Authファサードを読み込む
+use Illuminate\Support\Facades\Auth;
+
 
 
 class StaffAttendanceController extends Controller
@@ -132,7 +138,6 @@ class StaffAttendanceController extends Controller
     }
 
     // 一般ユーザーの勤務一覧画面
-
     public function list($year = null, $month = null)
     {
         $userId = auth()->id();
@@ -156,6 +161,43 @@ class StaffAttendanceController extends Controller
             });
 
         return view('attendance.staff_list', compact('daysInMonth', 'attendances', 'current'));
+    }
+
+    // 一般ユーザーの勤務詳細画面（動的セグメント）
+    // 詳細ページ表示（編集フォームあり）
+    public function show($date)
+    {
+        $user = auth()->user();
+        $workDate = Carbon::parse($date)->toDateString();
+
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', $workDate)
+            ->first();
+            // 存在しない日は null
+
+        return view('attendance.staff_show', [
+            'attendance' => $attendance,
+            'workDate' => $workDate,
+        ]);
+    }
+    // 修正申請の処理
+    public function update(Request $request, Attendance $attendance)
+    {
+        Attendance_application::create([
+            'attendance_id' => $attendance->id,
+            'applicant_id' => Auth::id(),
+            'before_clock_in' => $attendance->clock_in,
+            'after_clock_in' => $request->input('clock_in'),
+            'before_clock_out' => $attendance->clock_out,
+            'after_clock_out' => $request->input('clock_out'),
+            'before_breaks_json' => json_encode($attendance->breakTimes),
+            'after_breaks_json' => json_encode($request->input('breaks')),
+            'reason' => $request->input('reason'),
+            'status' => 0, // 承認待ち
+        ]);
+
+        return redirect()->route('staff.attendance.show', $attendance)
+            ->with('message', '修正申請を送信しました。');
     }
 }
 
