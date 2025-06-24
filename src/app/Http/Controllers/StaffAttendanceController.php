@@ -22,6 +22,9 @@ use Carbon\CarbonPeriod;
 // Authファサードを読み込む
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Support\MessageBag;
 
 
 class StaffAttendanceController extends Controller
@@ -180,9 +183,48 @@ class StaffAttendanceController extends Controller
             'workDate' => $workDate,
         ]);
     }
-    // 修正申請の処理
+    // 修正申請ボタンの処理
     public function update(Request $request, Attendance $attendance)
     {
+        // バリデーション（出勤・退勤・備考）
+        $validator = Validator::make($request->all(), [
+            'clock_in' => 'required',
+            'clock_out' => 'required|after:clock_in',
+            'reason' => 'required|string',
+        ], [
+            'clock_in.required' => '出勤時間を入力してください',
+            'clock_out.required' => '退勤時間を入力してください',
+            'clock_out.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            'reason.required' => '備考を記入してください',
+        ]);
+
+        // カスタムエラー格納用
+        $customErrors = new MessageBag();
+
+        // 勤務時間の範囲
+        $clockIn = Carbon::parse($request->input('clock_in'));
+        $clockOut = Carbon::parse($request->input('clock_out'));
+
+        foreach ($request->input('breaks', []) as $break) {
+            if (!empty($break['start']) && !empty($break['end'])) {
+                $breakStart = Carbon::parse($break['start']);
+                $breakEnd = Carbon::parse($break['end']);
+
+                if ($breakStart->lt($clockIn) || $breakEnd->gt($clockOut)) {
+                    $customErrors->add('break_time', '休憩時間が勤務時間外です');
+                    break; // 1件でOKなら break で抜ける
+                }
+            }
+        }
+
+        // バリデーション or カスタムエラーがあれば戻る
+        if ($validator->fails() || $customErrors->any()) {
+            return back()
+                ->withErrors($validator->errors()->merge($customErrors))
+                ->withInput();
+        }
+
+        // 通常処理
         Attendance_application::create([
             'attendance_id' => $attendance->id,
             'applicant_id' => Auth::id(),
@@ -193,10 +235,11 @@ class StaffAttendanceController extends Controller
             'before_breaks_json' => json_encode($attendance->breakTimes),
             'after_breaks_json' => json_encode($request->input('breaks')),
             'reason' => $request->input('reason'),
-            'status' => 0, // 承認待ち
+            'status' => 0,
         ]);
 
-        return redirect()->route('staff.attendance.show', $attendance)
+        return redirect()
+            ->route('staff.attendance.show', $attendance)
             ->with('message', '修正申請を送信しました。');
     }
 }

@@ -17,33 +17,42 @@
 <h2>勤務詳細（一般ユーザー）</h2>
 
 
-
-
-
 <form action="{{ route('staff.attendance.update', ['date' => $workDate]) }}" method="POST">
     @csrf
 
     <!-- 名前 -->
-    <label>名前</label>
-    {{ auth()->user()->name }}
+    <div>
+        <label>名前 {{ auth()->user()->name }}</label>
+    </div>
 
     <!-- 日付 -->
-    <label>日付</label>
-    {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}
-
+    <div>
+    <label>日付 {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
+    </div>
 
 
     <!-- 出勤 -->
     <label>出勤・退勤</label>
-    <input type="datetime-local" name="clock_in"
+    <input type="time" name="clock_in"
         value="{{ optional($attendance)->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('Y-m-d\TH:i') : '' }}">
 
     <span>〜</span>
 
     <!-- 退勤 -->
     <!-- <label>退勤</label> -->
-    <input type="datetime-local" name="clock_out"
+    <input type="time" name="clock_out"
         value="{{ optional($attendance)->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('Y-m-d\TH:i') : '' }}">
+
+
+    <!-- 出勤エラー -->
+    @error('clock_in')
+    <div style="color:red;">{{ $message }}</div>
+    @enderror
+    <!-- 退勤エラー -->
+    @error('clock_out')
+    <div style="color:red;">{{ $message }}</div>
+    @enderror
+
 
     <!-- 休憩開始 -->
     @php
@@ -55,18 +64,26 @@
         <label>
         {{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}
         </label>
-        <input type="datetime-local" name="breaks[{{ $i }}][start]"
+        <input type="time" name="breaks[{{ $i }}][start]"
             value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_start)->format('Y-m-d\TH:i') : '' }}">
         <span>〜</span>
-        <input type="datetime-local" name="breaks[{{ $i }}][end]"
+        <input type="time" name="breaks[{{ $i }}][end]"
             value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_end)->format('Y-m-d\TH:i') : '' }}">
-    @endfor
+        @endfor
+
+        @error('break_time')
+        <div style="color:red;">{{ $message }}</div>
+        @enderror
 
 
 
         <!-- 申請理由 -->
         <label>申請理由 :</label>
         <textarea name="reason"></textarea>
+
+        @error('reason')
+        <div style="color:red;">{{ $message }}</div>
+        @enderror
         <button type="submit">修正</button>
 </form>
 
