@@ -141,7 +141,7 @@ class StaffAttendanceController extends Controller
         return back()->with('success', '休憩が終わりました。');
     }
 
-    // 一般ユーザーの勤務一覧画面
+    // 勤務一覧画面
     public function list($year = null, $month = null)
     {
         $userId = auth()->id();
@@ -173,24 +173,29 @@ class StaffAttendanceController extends Controller
 
     public function show($date)
     {
-        // 日付の形式チェック（YYYY-MM-DD）
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-            return Redirect::route('staff.attendance.list') // 一覧ページに戻すなど
+            return Redirect::route('staff.attendance.list')
                 ->with('error', '不正な日付形式です');
         }
 
         $user = auth()->user();
         $workDate = Carbon::parse($date)->toDateString();
 
-        $attendance = Attendance::where('user_id', $user->id)
-            ->whereDate('work_date', $workDate)
-            ->first();
+        $attendance = Attendance::where('user_id', $user->id)->whereDate('work_date', $workDate)->first();
+
+        // 修正申請データの取得（承認待ち）
+        $application = null;
+        if ($attendance) {
+            $application = Attendance_application::where('user_id', $user->id)->where('attendance_id', $attendance->id)->where('status', 0)->first();
+        }
 
         return view('attendance.staff_show', [
             'attendance' => $attendance,
             'workDate' => $workDate,
+            'application' => $application, // ←これをビューに渡す
         ]);
     }
+
 
     // 修正申請の処理
     public function update(Request $request, $date)
@@ -303,7 +308,43 @@ class StaffAttendanceController extends Controller
         return redirect()
         ->route('staff.attendance.show', $attendance)
         ->with('message', '修正申請を送信しました。');
-}
+    }
+    // 申請一覧画面
+    public function myRequest(Request $request)
+    {
+
+        $status = $request->input('status', 'waiting'); // ← デフォルトで waiting を指定！
+
+
+        $query = Attendance_Application::where('user_id', Auth::id());
+
+        if ($status === 'waiting') {
+            $waitingApplications = Attendance_Application::where('user_id', Auth::id())
+                ->where('status', 0)
+                ->get();
+
+            return view('attendance.staff_my_requests', [
+                'status' => 'waiting',
+                'waitingApplications' => $waitingApplications,
+            ]);
+        }
+
+        if ($status === 'approved') {
+            $approvedApplications = Attendance_Application::where('user_id', Auth::id())
+                ->where('status', 1)
+                ->get();
+
+
+            return view('attendance.staff_my_requests', [
+                'status' => 'approved',
+                'approvedApplications' => $approvedApplications,
+            ]);
+        }
+
+
+        // どちらでもなければ waiting に飛ばす（保険）
+        return redirect()->route('staff.attendance.myRequest', ['status' => 'waiting']);
+    }
 }
 
 

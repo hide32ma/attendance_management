@@ -14,9 +14,10 @@
 <!-- 本体 -->
 @section('content')
 
-<h2>勤務詳細（一般ユーザー）</h2>
+<h2>勤怠詳細（一般ユーザー）</h2>
 
 
+@if (!$application)
 <form action="{{ route('staff.attendance.update', ['date' => $workDate]) }}" method="POST">
     @csrf
 
@@ -94,10 +95,39 @@
 @endif
 
 @error('attendance')
-    <p class="text-danger" style="color: red;">{{ $message }}</p>
+<p class="text-danger" style="color: red;">{{ $message }}</p>
 @enderror
 
+@endif
 
+<!-- 修正申請が存在する場合 -->
+@if ($application)
+
+<!-- 名前 -->
+<div>
+    <label>名前 {{ auth()->user()->name }}</label>
+</div>
+
+<!-- 日付 -->
+<div>
+    <label>日付 {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
+</div>
+
+
+<div>出勤・退勤 {{ \Carbon\Carbon::parse($application->after_clock_in)->format('H:i') }}
+〜
+{{ \Carbon\Carbon::parse($application->after_clock_out)->format('H:i') }}</div>
+
+<div>休憩
+    @foreach (json_decode($application->after_breaks_json, true) as $break)
+    {{ $break['start'] }}〜{{ $break['end'] }}
+    @endforeach
+</div>
+<div>備考{{ $application->reason }}</div>
+
+<div class="text-danger">※承認待ちのため修正はできません。</div>
+
+@endif
 
 
 @endsection

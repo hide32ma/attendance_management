@@ -64,7 +64,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/staff/attendance/{date}', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
 });
-
+// 申請一覧画面
+Route::middleware('auth')->group(function () {
+    Route::get('/staff/stamp_correction_request/list', [StaffAttendanceController::class, 'myRequest'])->name('staff.attendance.myRequest');
+});
 
 
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる

@@ -20,7 +20,7 @@
     <div class="app">
         <header class="header">
             <h1 class="header-heading">
-                <a href="/">
+                <a href="">
                     <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH">
                 </a>
             </h1>
@@ -28,7 +28,9 @@
                 <!-- ログイン済みの時だけ表示する -->
                 <!-- 一般ユーザー用も管理者も両方 -->
                 @auth
+                <a href="/" class="link">勤怠</a>
                 <a href="/staff/attendance/list" class="link">勤怠一覧</a>
+                <a href="/staff/stamp_correction_request/list" class="link">申請</a>
                 <li class="header-nav__item">
                     <!-- ログアウト機能 -->
                     <form class="logout__form" action="/logout" method="post">
