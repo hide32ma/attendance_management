@@ -27,21 +27,21 @@
 
     <!-- 日付 -->
     <div>
-    <label>日付 {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
+        <label>日付 {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
     </div>
 
 
     <!-- 出勤 -->
     <label>出勤・退勤</label>
     <input type="time" name="clock_in"
-        value="{{ optional($attendance)->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('Y-m-d\TH:i') : '' }}">
+        value="{{ optional($attendance)->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}">
 
     <span>〜</span>
 
     <!-- 退勤 -->
     <!-- <label>退勤</label> -->
     <input type="time" name="clock_out"
-        value="{{ optional($attendance)->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('Y-m-d\TH:i') : '' }}">
+        value="{{ optional($attendance)->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}">
 
 
     <!-- 出勤エラー -->
@@ -61,14 +61,14 @@
     @endphp
 
     @for ($i = 0; $i < $count + 1; $i++)
-        <label>
+
         {{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}
-        </label>
+
         <input type="time" name="breaks[{{ $i }}][start]"
-            value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_start)->format('Y-m-d\TH:i') : '' }}">
+        value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_start)->format('H:i') : '' }}">
         <span>〜</span>
         <input type="time" name="breaks[{{ $i }}][end]"
-            value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_end)->format('Y-m-d\TH:i') : '' }}">
+            value="{{ isset($breakTimes[$i]) ? \Carbon\Carbon::parse($breakTimes[$i]->break_end)->format('H:i') : '' }}">
         @endfor
 
         @error('break_time')
@@ -86,6 +86,18 @@
         @enderror
         <button type="submit">修正</button>
 </form>
+
+@if (session('message'))
+<div style="color: green; margin: 10px 0;">
+    {{ session('message') }}
+</div>
+@endif
+
+@error('attendance')
+    <p class="text-danger" style="color: red;">{{ $message }}</p>
+@enderror
+
+
 
 
 @endsection

@@ -59,10 +59,10 @@ Route::middleware('auth')->group(function () {
 // 一般ユーザーの勤務詳細画面を表示
 Route::middleware('auth')->group(function () {
     Route::get('/staff/attendance/{date}', [StaffAttendanceController::class, 'show'])->name('staff.attendance.show');
-});
+    });
 // 勤務修正申請
 Route::middleware('auth')->group(function () {
-    Route::post('/staff/attendance/{date}/update', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
+    Route::post('/staff/attendance/{date}', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
 });
 
 

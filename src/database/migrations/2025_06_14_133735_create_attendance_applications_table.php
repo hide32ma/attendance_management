@@ -18,7 +18,7 @@ class CreateAttendanceApplicationsTable extends Migration
             // 外部キーにて、user_idに紐付け
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // 外部キーにて、attendance_idに紐付け
-            $table->foreignId('attendance_id')->constrained()->onDelete('cascade');
+            $table->foreignId('attendance_id')->nullable()->constrained()->onDelete('cascade');
             // 修正申請（前）の出勤退勤時間
             $table->time('before_clock_in')->nullable();
             $table->time('after_clock_in')->nullable();

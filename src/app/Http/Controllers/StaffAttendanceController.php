@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\MessageBag;
 
+use Illuminate\Support\Facades\Redirect;
 
 class StaffAttendanceController extends Controller
 {
@@ -168,80 +169,141 @@ class StaffAttendanceController extends Controller
 
     // 一般ユーザーの勤務詳細画面（動的セグメント）
     // 詳細ページ表示（編集フォームあり）
+
+
     public function show($date)
     {
+        // 日付の形式チェック（YYYY-MM-DD）
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            return Redirect::route('staff.attendance.list') // 一覧ページに戻すなど
+                ->with('error', '不正な日付形式です');
+        }
+
         $user = auth()->user();
         $workDate = Carbon::parse($date)->toDateString();
 
         $attendance = Attendance::where('user_id', $user->id)
             ->whereDate('work_date', $workDate)
             ->first();
-            // 存在しない日は null
 
         return view('attendance.staff_show', [
             'attendance' => $attendance,
             'workDate' => $workDate,
         ]);
     }
-    // 修正申請ボタンの処理
-    public function update(Request $request, Attendance $attendance)
+
+    // 修正申請の処理
+    public function update(Request $request, $date)
     {
-        // バリデーション（出勤・退勤・備考）
-        $validator = Validator::make($request->all(), [
-            'clock_in' => 'required',
-            'clock_out' => 'required|after:clock_in',
-            'reason' => 'required|string',
-        ], [
-            'clock_in.required' => '出勤時間を入力してください',
-            'clock_out.required' => '退勤時間を入力してください',
-            'clock_out.after' => '出勤時間もしくは退勤時間が不適切な値です',
-            'reason.required' => '備考を記入してください',
+        $user = auth()->user();
+        $workDate = Carbon::parse($date)->toDateString();
+
+        $attendance = Attendance::firstOrNew([
+            'user_id' => $user->id,
+            'work_date' => $workDate,
         ]);
 
-        // カスタムエラー格納用
-        $customErrors = new MessageBag();
+        // 新しく作成された場合、保存してIDを発番
+        if (!$attendance->exists) {
+            $attendance->clock_in = null;
+            $attendance->clock_out = null;
+            $attendance->status = '0';
+            $attendance->save();  //これがポイント
+        }
 
-        // 勤務時間の範囲
-        $clockIn = Carbon::parse($request->input('clock_in'));
-        $clockOut = Carbon::parse($request->input('clock_out'));
+
+    // まずバリデーション（出勤・退勤・備考）
+    $validator = Validator::make($request->all(), [
+        'clock_in' => 'required|',
+        'clock_out' => 'required|after:clock_in',
+        'reason' => 'required|string',
+    ], [
+        'clock_in.required' => '出勤時間を入力してください',
+        'clock_out.required' => '退勤時間を入力してください',
+        'clock_out.after' => '出勤時間もしくは退勤時間が不適切な値です',
+        'reason.required' => '備考を記入してください',
+    ]);
+
+    // カスタムエラー格納用
+    $customErrors = new MessageBag();
+
+    // 勤務時間の範囲
+    $clockIn = Carbon::parse($request->input('clock_in'));
+    $clockOut = Carbon::parse($request->input('clock_out'));
 
         foreach ($request->input('breaks', []) as $break) {
-            if (!empty($break['start']) && !empty($break['end'])) {
-                $breakStart = Carbon::parse($break['start']);
-                $breakEnd = Carbon::parse($break['end']);
+            if (
+                !empty($break['start']) && !empty($break['end']) &&
+                preg_match('/^\d{2}:\d{2}$/', $break['start']) &&
+                preg_match('/^\d{2}:\d{2}$/', $break['end'])
+            ) {
 
-                if ($breakStart->lt($clockIn) || $breakEnd->gt($clockOut)) {
-                    $customErrors->add('break_time', '休憩時間が勤務時間外です');
-                    break; // 1件でOKなら break で抜ける
+                try {
+                    $breakStart = Carbon::parse($break['start']);
+                    $breakEnd = Carbon::parse($break['end']);
+
+                    if ($breakStart->lt($clockIn) || $breakEnd->gt($clockOut)) {
+                        $customErrors->add('break_time', '休憩時間が勤務時間外です');
+                        break;
+                    }
+                } catch (\Exception $e) {
+                    $customErrors->add('break_time', '休憩時間の形式が正しくありません');
+                    break;
                 }
             }
         }
 
-        // バリデーション or カスタムエラーがあれば戻る
-        if ($validator->fails() || $customErrors->any()) {
-            return back()
-                ->withErrors($validator->errors()->merge($customErrors))
-                ->withInput();
+    // バリデーション or カスタムエラーがあれば戻る
+    if ($validator->fails() || $customErrors->any()) {
+        return back()
+            ->withErrors($validator->errors()->merge($customErrors))
+            ->withInput();
+    }
+
+
+        // 正しい形式の休憩だけを整形して格納する
+        $validBreaks = [];
+
+        foreach ($request->input('breaks', []) as $break) {
+            if (
+                !empty($break['start']) && !empty($break['end']) &&
+                preg_match('/^\d{2}:\d{2}$/', $break['start']) &&
+                preg_match('/^\d{2}:\d{2}$/', $break['end'])
+            ) {
+
+                $validBreaks[] = [
+                    'start' => $break['start'],
+                    'end' => $break['end'],
+                ];
+            }
         }
 
         // 通常処理
         Attendance_application::create([
-            'attendance_id' => $attendance->id,
+            // 'attendance_id' => $attendance->id,
+            'attendance_id' => $attendance->exists ? $attendance->id : null,
+            'user_id' => Auth::id(),
             'applicant_id' => Auth::id(),
             'before_clock_in' => $attendance->clock_in,
             'after_clock_in' => $request->input('clock_in'),
             'before_clock_out' => $attendance->clock_out,
             'after_clock_out' => $request->input('clock_out'),
-            'before_breaks_json' => json_encode($attendance->breakTimes),
-            'after_breaks_json' => json_encode($request->input('breaks')),
+            'before_breaks_json' => json_encode($attendance->breakTimes->map(function ($break) {
+                return [
+                    'start' => \Carbon\Carbon::parse($break->break_start)->format('H:i'),
+                    'end' => \Carbon\Carbon::parse($break->break_end)->format('H:i'),
+                ];
+            })),
+            'after_breaks_json' => json_encode($validBreaks), // ←これで整形された休憩時間が保存される
             'reason' => $request->input('reason'),
             'status' => 0,
         ]);
 
+
         return redirect()
-            ->route('staff.attendance.show', $attendance)
-            ->with('message', '修正申請を送信しました。');
-    }
+        ->route('staff.attendance.show', $attendance)
+        ->with('message', '修正申請を送信しました。');
+}
 }
 
 
