@@ -20,25 +20,33 @@
     <div class="app">
         <header class="header">
             <h1 class="header-heading">
-                <a href="">
-                    <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH">
+                <!-- <a href=""> -->
+                <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH">
                 </a>
             </h1>
             <ul class="header-nav">
-                <!-- ログイン済みの時だけ表示する -->
-                <!-- 一般ユーザー用も管理者も両方 -->
-                @auth
-                <a href="/" class="link">勤怠</a>
-                <a href="/staff/attendance/list" class="link">勤怠一覧</a>
-                <a href="/staff/stamp_correction_request/list" class="link">申請</a>
+                <!-- 管理者(admin)ログイン中 -->
+                @if (Auth::guard('admin')->check())
+                <li><a href="/admin/attendance/list" class="link">勤務一覧</a></li>
+                <li><a href="#" class="link">スタッフ一覧</a></li>
+                <li><a href="#" class="link">申請一覧</a></li>
+                @elseif (Auth::guard('web')->check())
+                <!-- 一般ユーザー(staff)ログイン中 -->
+                <li><a href="/" class="link">勤怠</a></li>
+                <li><a href="/staff/attendance/list" class="link">勤怠一覧</a></li>
+                <li><a href="/staff/stamp_correction_request/list" class="link">申請</a></li>
+                @endif
+
+                <!-- ログアウトボタンは共通で表示 -->
+                <!-- ログインしている人だけログアウトボタンを表示 -->
+                @if (Auth::guard('admin')->check() || Auth::guard('web')->check())
                 <li class="header-nav__item">
-                    <!-- ログアウト機能 -->
-                    <form class="logout__form" action="/logout" method="post">
+                    <form class="logout_form" action="/logout" method="post">
                         @csrf
-                        <button class="logout__button">ログアウト</button>
+                        <button class="logout_button">ログアウト</button>
                     </form>
                 </li>
-                @endauth
+                @endif
             </ul>
         </header>
     </div>

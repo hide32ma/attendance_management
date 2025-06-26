@@ -14,6 +14,7 @@ use App\Http\Controllers\StaffAttendanceController;
 
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
+use App\Http\Controllers\AdminAttendanceController;
 
 
 
@@ -88,12 +89,11 @@ Route::get('/admin/login', function () {
 // admin(管理者)のFortifyログイン
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 
-// function = 名前のない関数(Fortifyなどで使える)
-// これは一時的
-// あとでコントローラを使って表示させる
-Route::get('/admin/attendance/list', function () {
-    return view('attendance.admin_list');
-});
+Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
+    ->name('admin.attendance.list');
+
+
+
 
 
 
