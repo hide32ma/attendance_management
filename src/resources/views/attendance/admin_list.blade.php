@@ -86,7 +86,7 @@
                 @endif
             </td>
             <td>
-                <a href="{{ route('staff.attendance.show', ['date' => $targetDateCarbon->format('Y-m-d'), 'user_id' => $user->id]) }}">詳細</a>
+                <a href="{{ route('admin.attendance.show', ['user_id' => $user->id, 'date' => $workDate]) }}">詳細</a>
             </td>
         </tr>
         @endforeach

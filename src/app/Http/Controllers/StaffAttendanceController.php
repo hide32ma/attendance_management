@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
+
 //  Userモデルを読み込む
 use App\Models\User;
 // Attendanceモデルを読み込む
@@ -182,6 +183,8 @@ class StaffAttendanceController extends Controller
         $workDate = Carbon::parse($date)->toDateString();
 
         $attendance = Attendance::where('user_id', $user->id)->whereDate('work_date', $workDate)->first();
+
+
 
         // 修正申請データの取得（承認待ち）
         $application = null;

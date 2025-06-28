@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+
 // ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
 
 // 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述
@@ -89,12 +91,13 @@ Route::get('/admin/login', function () {
 // admin(管理者)のFortifyログイン
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 
-Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])
-    ->name('admin.attendance.list');
+// 管理者側の勤怠一覧画面
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
+    });
 
-
-
-
-
-
+// 管理者側の勤怠詳細画面
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/attendance/show', [AdminAttendanceController::class, 'show'])->name('admin.attendance.show');
+});
 
