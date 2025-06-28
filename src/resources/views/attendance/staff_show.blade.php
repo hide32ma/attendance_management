@@ -23,19 +23,30 @@
 
 <form action="{{ route('staff.attendance.update', ['date' => $workDate]) }}" method="POST">
 
+    @csrf
+
+    @if(isset($user))
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
+    @endif
+
     <h2>勤怠詳細（管理者）</h2>
 
     @if (auth('admin')->check())
 
-    @if(isset($user))
+    @if ($user)
     <h2>{{ $user->name }} さんの勤怠情報</h2>
     @else
-    <h2>ユーザー情報が取得できませんでした</h2>
+    <h2>ユーザー情報が取得できませんでした。</h2>
     @endif
 
     <!-- 名前 -->
-    <label>名前：</label>{{ $user->name }}
-
+    <div>
+        <label>名前：</label>{{ $user->name }}
+    </div>
+    <!-- 日付 -->
+    <div>
+        <label>日付</label>{{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}
+    </div>
 
     <!-- 出勤 -->
     <label>出勤・退勤</label>
@@ -102,6 +113,10 @@
 @error('attendance')
 <p class="text-danger" style="color: red;">{{ $message }}</p>
 @enderror
+
+@if (session('message'))
+<div style="color: green;">{{ session('message') }}</div>
+@endif
 
 
 @endif
@@ -196,6 +211,8 @@
 @endif
 
 <!-- 修正申請が存在する場合 -->
+
+
 @if ($application)
 
 <!-- 名前 -->
@@ -227,5 +244,7 @@
 
 
 @endif
+
+
 
 @endsection

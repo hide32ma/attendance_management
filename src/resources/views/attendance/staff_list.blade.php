@@ -70,14 +70,15 @@
 
             <!-- 休憩の合計時間 -->
             <td>
-                @if ($attendance)
-                @php
-                $totalBreakMinutes = $attendance->breakTimes->sum(function($break) {
-                return \Carbon\Carbon::parse($break->break_end)->diffInMinutes(\Carbon\Carbon::parse($break->break_start));
-                });
-                echo floor($totalBreakMinutes / 60) . ':' . str_pad($totalBreakMinutes % 60, 2, '0', STR_PAD_LEFT);
-                @endphp
-                @endif
+                @if ($attendance && $attendance->breakTimes->isNotEmpty())
+                        @php
+                            $totalBreakMinutes = $attendance->breakTimes->sum(function($break) {
+                                return \Carbon\Carbon::parse($break->break_end)
+                                    ->diffInMinutes(\Carbon\Carbon::parse($break->break_start));
+                            });
+                            echo floor($totalBreakMinutes / 60) . ':' . str_pad($totalBreakMinutes % 60, 2, '0', STR_PAD_LEFT);
+                        @endphp
+                    @endif
             </td>
             <!-- 勤務合計時間 -->
             <!-- (出勤 〜 退勤 - 休憩合計時間) -->

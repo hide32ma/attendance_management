@@ -100,4 +100,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/admin/attendance/show', [AdminAttendanceController::class, 'show'])->name('admin.attendance.show');
 });
-
+// 修正ボタンを押したら
+Route::middleware('auth')->group(function () {
+    Route::post('/admin/attendance/show', [AdminAttendanceController::class, 'update'])->name('admin.attendance.update');
+});
