@@ -57,7 +57,9 @@
                     <td>{{ $clockOut ? $clockOut->format('H:i') : '' }}</td>
                     <!-- 休憩 -->
                     <td>
-                        {{ $breakMinutes !== null ? sprintf('%d:%02d', floor($breakMinutes / 60), $breakMinutes % 60) : '' }}
+                        @if (!is_null($attendance) && $attendance->breakTimes->isNotEmpty())
+                            {{ sprintf('%d:%02d', floor($breakMinutes / 60), $breakMinutes % 60) }}
+                        @endif
                     </td>
                     <!-- 勤務時間合計 -->
                     <td>
