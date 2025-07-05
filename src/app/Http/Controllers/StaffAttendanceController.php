@@ -208,6 +208,7 @@ class StaffAttendanceController extends Controller
 
         $attendance = Attendance::firstOrNew([
             'user_id' => $user->id,
+            // 'user_id' => $request->input('user_id'),
             'work_date' => $workDate,
         ]);
 
@@ -220,7 +221,7 @@ class StaffAttendanceController extends Controller
         }
 
 
-    // まずバリデーション（出勤・退勤・備考）
+    // バリデーション（出勤・退勤・備考）
     $validator = Validator::make($request->all(), [
         'clock_in' => 'required|',
         'clock_out' => 'required|after:clock_in',
@@ -292,6 +293,7 @@ class StaffAttendanceController extends Controller
             'attendance_id' => $attendance->exists ? $attendance->id : null,
             'user_id' => Auth::id(),
             'applicant_id' => Auth::id(),
+            // 'user_id' => $request->input('user_id'),
             'before_clock_in' => $attendance->clock_in,
             'after_clock_in' => $request->input('clock_in'),
             'before_clock_out' => $attendance->clock_out,
@@ -312,6 +314,7 @@ class StaffAttendanceController extends Controller
         ->route('staff.attendance.show', $attendance)
         ->with('message', '修正申請を送信しました。');
     }
+
     // 申請一覧画面
     public function myRequest(Request $request)
     {

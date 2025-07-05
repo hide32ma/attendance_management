@@ -21,12 +21,16 @@
 <!-- 管理者(admin)ログイン中 -->
 @if (Auth::guard('admin')->check())
 
-<form action="{{ route('staff.attendance.update', ['date' => $workDate]) }}" method="POST">
+<form action="{{ route('admin.attendance.update', ['date' => $workDate]) }}" method="POST">
 
     @csrf
 
     @if(isset($user))
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
+    <input type="hidden" name="user_id" value="{{ $user->id }}">
+    @endif
+
+    @if(isset($attendance))
+    <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
     @endif
 
     <h2>勤怠詳細（管理者）</h2>
@@ -45,7 +49,7 @@
     </div>
     <!-- 日付 -->
     <div>
-        <label>日付</label>{{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}
+        <label>日付：</label>{{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}
     </div>
 
     <!-- 出勤 -->
@@ -114,9 +118,9 @@
 <p class="text-danger" style="color: red;">{{ $message }}</p>
 @enderror
 
-@if (session('message'))
-<div style="color: green;">{{ session('message') }}</div>
-@endif
+<!-- @if (session('message')) -->
+<!-- <div style="color: green;">{{ session('message') }}</div> -->
+<!-- @endif -->
 
 
 @endif

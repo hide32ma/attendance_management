@@ -16,6 +16,9 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 use App\Http\Controllers\AdminAttendanceController;
 
+use App\Http\Controllers\AdminStaffController;
+
+
 
 
 /*
@@ -104,3 +107,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/admin/attendance/show', [AdminAttendanceController::class, 'update'])->name('admin.attendance.update');
 });
+// 全スタッフ一覧表示
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff.list');
+});
+// スタッフ個別表示
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/attendance/staff/{user}/{month?}', [AdminStaffController::class, 'showAttendance'])->name('admin.attendance.staff');
+});
+
