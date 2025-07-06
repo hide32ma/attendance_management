@@ -316,6 +316,7 @@ class StaffAttendanceController extends Controller
     }
 
     // 申請一覧画面
+    /*
     public function myRequest(Request $request)
     {
 
@@ -325,9 +326,57 @@ class StaffAttendanceController extends Controller
         $query = Attendance_Application::where('user_id', Auth::id());
 
         if ($status === 'waiting') {
-            $waitingApplications = Attendance_Application::where('user_id', Auth::id())
-                ->where('status', 0)
-                ->get();
+                $waitingApplications = Attendance_Application::where('status', 0)
+                    ->with('user', 'attendance') // 必要に応じてリレーションも
+                    ->get();
+
+                return view('attendance.staff_my_requests', [
+                    'status' => 'waiting',
+                    'waitingApplications' => $waitingApplications,
+                ]);
+            }
+
+            if ($status === 'approved') {
+                $approvedApplications = Attendance_Application::where('user_id', Auth::id()) // 👈 追加
+                    ->where('status', 1)
+                    ->with('user', 'attendance')
+                    ->get();
+
+                return view('attendance.staff_my_requests', [
+                    'status' => 'approved',
+                    'approvedApplications' => $approvedApplications,
+                ]);
+        }
+
+
+        // どちらでもなければ waiting に飛ばす（保険）
+        return redirect()->route('staff.attendance.myRequest', ['status' => 'waiting']);
+    }
+        */
+    public function myRequest(Request $request)
+    {
+        // ログインユーザー取得（guardで判定）
+        if (Auth::guard('admin')->check()) {
+            $user = Auth::guard('admin')->user();
+            $isAdmin = true;
+        } else {
+            $user = Auth::guard('web')->user();
+            $isAdmin = false;
+        }
+
+        $status = $request->input('status', 'waiting');
+
+        // クエリビルダ作成
+        $query = Attendance_Application::with('user', 'attendance');
+
+        // 管理者でなければログインユーザーに絞る
+        if (!$isAdmin) {
+            $query->where('user_id', $user->id);
+        }
+
+        // ステータスによって取得
+        if ($status === 'waiting') {
+            $waitingApplications = (clone $query)->where('status', 0)->get();
 
             return view('attendance.staff_my_requests', [
                 'status' => 'waiting',
@@ -336,19 +385,14 @@ class StaffAttendanceController extends Controller
         }
 
         if ($status === 'approved') {
-            $approvedApplications = Attendance_Application::where('user_id', Auth::id())
-                ->where('status', 1)
-                ->get();
-
+            $approvedApplications = (clone $query)->where('status', 1)->get();
 
             return view('attendance.staff_my_requests', [
                 'status' => 'approved',
                 'approvedApplications' => $approvedApplications,
             ]);
         }
-
-
-        // どちらでもなければ waiting に飛ばす（保険）
+        // その他はwaitingに飛ばす
         return redirect()->route('staff.attendance.myRequest', ['status' => 'waiting']);
     }
 }

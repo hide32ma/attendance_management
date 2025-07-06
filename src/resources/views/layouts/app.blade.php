@@ -29,7 +29,7 @@
                 @if (Auth::guard('admin')->check())
                 <li><a href="/admin/attendance/list" class="link">勤務一覧</a></li>
                 <li><a href="/admin/staff/list" class="link">スタッフ一覧</a></li>
-                <li><a href="#" class="link">申請一覧</a></li>
+                <li><a href="/staff/stamp_correction_request/list" class="link">申請</a></li>
                 <!-- 一般ユーザー(staff)ログイン中 -->
                 @elseif (Auth::guard('web')->check())
                 <li><a href="/" class="link">勤怠</a></li>

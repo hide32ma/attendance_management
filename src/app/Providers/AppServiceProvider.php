@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 現在時刻をフォーマットして共有
         Carbon::setLocale('ja');
         $now = Carbon::now()->translatedFormat('Y年n月j日 (D)' . "\n" . 'H:i');
         view()->share('nowDateTime', $now);

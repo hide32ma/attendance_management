@@ -52,12 +52,12 @@
             <td>
                 {{ $attendance && $attendance->clock_in
                         ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')
-                        : '---' }}
+                        : '' }}
             </td>
             <td>
                 {{ $attendance && $attendance->clock_out
                         ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')
-                        : '---' }}
+                        : '' }}
             </td>
             <td>
                 @if ($attendance && $attendance->breakTimes->isNotEmpty())
@@ -68,7 +68,7 @@
                 echo floor($breakMinutes / 60) . ':' . str_pad($breakMinutes % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
                 @else
-                ---
+                <!-- --- -->
                 @endif
             </td>
             <td>
@@ -82,7 +82,7 @@
                 echo floor($total / 60) . ':' . str_pad($total % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
                 @else
-                ---
+                <!-- --- -->
                 @endif
             </td>
             <td>

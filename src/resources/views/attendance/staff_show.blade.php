@@ -15,9 +15,6 @@
 @section('content')
 
 
-
-
-
 <!-- 管理者(admin)ログイン中 -->
 @if (Auth::guard('admin')->check())
 
@@ -105,7 +102,22 @@
         @error('reason')
         <div style="color:red;">{{ $message }}</div>
         @enderror
-        <button type="submit">修正</button>
+
+        <!-- <button type="submit">修正</button> -->
+        @if (request()->query('from') === 'approval')
+            @if ($application && $application->status === 1)
+                <button disabled>承認済み</button>
+            @else
+                <form method="POST" action="{{ route('admin.attendance.approve') }}">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
+                    <input type="hidden" name="date" value="{{ $attendance->work_date }}">
+                    <button type="submit">承認</button>
+                </form>
+            @endif
+        @else
+            <button type="submit">修正</button>
+        @endif
 </form>
 
 @if (session('message'))
@@ -199,6 +211,7 @@
         @error('reason')
         <div style="color:red;">{{ $message }}</div>
         @enderror
+
         <button type="submit">修正</button>
 </form>
 
