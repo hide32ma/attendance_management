@@ -4,12 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StaffAuthController;
 
-use App\Http\Controllers\AdminAuthController;
-
-use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Session;
-
 use App\Http\Controllers\StaffAttendanceController;
 
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -54,16 +48,7 @@ Route::middleware('auth')->group(function () {
 // 一般ユーザーの勤務詳細画面を表示
 Route::middleware('auth')->group(function () {
     Route::get('/staff/attendance/{date}', [StaffAttendanceController::class, 'show'])->name('staff.attendance.show');
-    });
-
-
-//お試し
-/*
-Route::middleware('auth')->group(function () {
-Route::get('/admin/attendance/{user_id}/{date}', [StaffAttendanceController::class, 'show'])->name('admin.attendance.show');
 });
-*/
-
 // 勤務修正申請
 Route::middleware('auth')->group(function () {
     Route::post('/staff/attendance/{date}', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
@@ -83,15 +68,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/login', function () {
     return view('auth.admin_login');
 });
-
 // admin(管理者)のFortifyログイン
 Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
-
 // 管理者側の勤怠一覧画面
 Route::middleware('auth')->group(function () {
     Route::get('/admin/attendance/list', [AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
-    });
-
+});
 // 管理者側の勤怠詳細画面
 Route::middleware('auth')->group(function () {
     Route::get('/admin/attendance/show', [AdminAttendanceController::class, 'show'])->name('admin.attendance.show');
@@ -108,7 +90,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/admin/attendance/staff/{user}/{month?}', [AdminStaffController::class, 'showAttendance'])->name('admin.attendance.staff');
 });
-
 // 申請一覧（管理者）〜詳細リンク
 Route::middleware('auth')->group(function () {
     route::post('/admin/attendance/approve', [AdminAttendanceController::class, 'approve'])->name('admin.attendance.approve');
