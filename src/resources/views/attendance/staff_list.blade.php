@@ -6,17 +6,11 @@
 <link rel="stylesheet" href="{{ asset('css/staff_list.css') }}" />
 @endsection
 
-
-
-
-
-
 <!-- 本体 -->
 @section('content')
 
 <div>勤務一覧画面（一般ユーザー）</div>
 <div>ログイン時のみ表示</div>
-
 
 <div>
     <h2>勤務一覧</h2>

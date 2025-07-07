@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-
 use Illuminate\Http\Request;
 
-
-//  Userモデルを読み込む
-use App\Models\User;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 
 use App\Models\Attendance_application;
-
-use App\Models\BreakTime;
 
 use Carbon\Carbon;
 
@@ -170,8 +163,6 @@ class StaffAttendanceController extends Controller
 
     // 一般ユーザーの勤務詳細画面（動的セグメント）
     // 詳細ページ表示（編集フォームあり）
-
-
     public function show($date)
     {
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
@@ -198,6 +189,63 @@ class StaffAttendanceController extends Controller
             'application' => $application, // ←これをビューに渡す
         ]);
     }
+
+    // お試し
+    /*
+    public function show($date, Request $request)
+    {
+        // 管理者かスタッフで切り替える
+        if (Auth::guard('admin')->check()) {
+            $userId = $request->query('user_id'); // 管理者用ルートはクエリ or パスにuser_idが必要
+            $user = User::find($userId);
+        } else {
+            $user = Auth::user(); // スタッフログイン時
+        }
+
+        // 日付変換
+        $workDate = Carbon::parse($date)->toDateString();
+
+        // 勤怠データ取得
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', $workDate)
+            ->first();
+
+        // 修正申請データ（未承認のもののみ取得）
+        $application = null;
+        if ($attendance) {
+            // 修正申請データを work_date で検索（※ attendance_id が NULL のケースにも対応）
+            $application = Attendance_application::where('user_id', $user->id)
+                ->where('work_date', $workDate)
+                ->where('status', 0)
+                ->first();
+        }
+
+        // 修正申請があれば上書き
+        if ($application) {
+            // 勤怠が存在しなければ新しくインスタンス化（フォームで使うため）
+            if (!$attendance) {
+                $attendance = new Attendance();
+            }
+
+            $attendance->clock_in = $application->after_clock_in;
+            $attendance->clock_out = $application->after_clock_out;
+
+            // 休憩時間（JSON）を復元
+            $breaks = json_decode($application->after_breaks_json);
+            $attendance->breakTimes = collect($breaks)->map(function ($break) {
+                return (object)[
+                    'break_start' => $break->start,
+                    'break_end'   => $break->end,
+                ];
+            });
+
+            $attendance->reason = $application->reason;
+        }
+
+        return view('attendance.staff_show', compact('user', 'attendance', 'workDate'));
+    }
+        */
+
 
 
     // 修正申請の処理

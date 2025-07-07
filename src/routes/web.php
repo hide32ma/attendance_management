@@ -21,16 +21,7 @@ use App\Http\Controllers\AdminStaffController;
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// ↓ (一般ユーザー)
 
 // ミドルウェアにより、未ログインの場合はloginページが表示される
 // ログインされていれば、出勤登録画面（一般ユーザー）が表示される
@@ -64,6 +55,15 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/staff/attendance/{date}', [StaffAttendanceController::class, 'show'])->name('staff.attendance.show');
     });
+
+
+//お試し
+/*
+Route::middleware('auth')->group(function () {
+Route::get('/admin/attendance/{user_id}/{date}', [StaffAttendanceController::class, 'show'])->name('admin.attendance.show');
+});
+*/
+
 // 勤務修正申請
 Route::middleware('auth')->group(function () {
     Route::post('/staff/attendance/{date}', [StaffAttendanceController::class, 'update'])->name('staff.attendance.update');
@@ -76,17 +76,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-
-
-// ログインフォームで入力した内容（メールアドレスとパスワード）を送信するとき、/loginにpostリクエストが送られると、AuthControllerのloginメソッドが呼ばれて、ログイン処理が行われる
-
-// 本来はFortifyの為、ルートは必要なしですが、LoginRequestを使用してバリデーションを表示する為、ルーティングを記述
-
-// 独自のルートにすると、バリデーションはLoginRequestにて変更できたがFortifyのログイン機能が使えなくなる為、こちらはNGとする
-
-// Route::post('/login', [AuthController::class, 'login']);
-
+// ↓ (管理者)
 
 // function = 名前のない関数(Fortifyなどで使える)
 // コントローラー管理にするとバリデーションを引き継げないためこの表示方法
@@ -119,9 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/attendance/staff/{user}/{month?}', [AdminStaffController::class, 'showAttendance'])->name('admin.attendance.staff');
 });
 
-
-
-// お試し
+// 申請一覧（管理者）〜詳細リンク
 Route::middleware('auth')->group(function () {
     route::post('/admin/attendance/approve', [AdminAttendanceController::class, 'approve'])->name('admin.attendance.approve');
 });

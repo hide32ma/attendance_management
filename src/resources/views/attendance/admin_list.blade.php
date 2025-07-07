@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="{{ asset('css/admin_index.css') }}" />
 @endsection
 
-
-
-
-
-
 <!-- 本体 -->
 @section('content')
 

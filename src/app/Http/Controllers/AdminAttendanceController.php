@@ -9,9 +9,6 @@ use Carbon\Carbon;
 
 use App\Models\Attendance_application;
 
-// Authファサードを読み込む
-use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\MessageBag;
 
 use Illuminate\Support\Facades\Validator;

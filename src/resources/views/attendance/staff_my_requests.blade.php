@@ -9,9 +9,6 @@
 <!-- 本体 -->
 @section('content')
 
-
-
-
 <!-- 管理者(admin)ログイン中 -->
 @if (Auth::guard('admin')->check())
 
@@ -39,11 +36,19 @@
     <tbody>
         @foreach ($waitingApplications as $app)
         <tr>
+            {{-- ステータス --}}
             <td>{{ $app->status === 0 ? '承認待ち' : ($app->status === 1 ? '承認済み' : '不明') }}</td>
+
+            {{-- 名前 --}}
             <td>{{ $app->user->name }}</td>
-            <!-- <td>{{ optional($app->attendance)->work_date }}</td> -->
+
+            {{-- 対象日付 --}}
             <td>{{ \Carbon\Carbon::parse(optional($app->attendance)->work_date)->format('Y/m/d') }}</td>
+
+            {{-- 申請理由 --}}
             <td>{{ $app->reason }}</td>
+
+            {{-- 申請日 --}}
             <td>{{ $app->created_at->format('Y/m/d') }}</td>
 
             <td>

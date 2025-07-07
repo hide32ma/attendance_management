@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="{{ asset('css/staff_show.css') }}" />
 @endsection
 
-
-
-
-
-
 <!-- 本体 -->
 @section('content')
 
@@ -97,7 +92,8 @@
 
         <!-- 申請理由 -->
         <label>申請理由 :</label>
-        <textarea name="reason"></textarea>
+        <textarea name="reason">{{ old('reason', $attendance->reason ?? '') }}</textarea>
+
 
         @error('reason')
         <div style="color:red;">{{ $message }}</div>
@@ -105,18 +101,18 @@
 
         <!-- <button type="submit">修正</button> -->
         @if (request()->query('from') === 'approval')
-            @if ($application && $application->status === 1)
-                <button disabled>承認済み</button>
-            @else
-                <form method="POST" action="{{ route('admin.attendance.approve') }}">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{ $user->id }}">
-                    <input type="hidden" name="date" value="{{ $attendance->work_date }}">
-                    <button type="submit">承認</button>
-                </form>
-            @endif
+        @if ($application && $application->status === 1)
+        <button disabled>承認済み</button>
         @else
-            <button type="submit">修正</button>
+        <form method="POST" action="{{ route('admin.attendance.approve') }}">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ $user->id }}">
+            <input type="hidden" name="date" value="{{ $attendance->work_date }}">
+            <button type="submit">承認</button>
+        </form>
+        @endif
+        @else
+        <button type="submit">修正</button>
         @endif
 </form>
 

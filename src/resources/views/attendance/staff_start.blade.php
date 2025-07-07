@@ -6,11 +6,6 @@
 <link rel="stylesheet" href="{{ asset('css/staff_start.css') }}" />
 @endsection
 
-
-
-
-
-
 <!-- 本体 -->
 @section('content')
 
