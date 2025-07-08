@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 
-use App\Models\Attendance_application;
+use App\Models\AttendanceApplication;
 
 use Carbon\Carbon;
 
@@ -180,7 +180,7 @@ class StaffAttendanceController extends Controller
         // 修正申請データの取得（承認待ち）
         $application = null;
         if ($attendance) {
-            $application = Attendance_application::where('user_id', $user->id)->where('attendance_id', $attendance->id)->where('status', 0)->first();
+            $application = AttendanceApplication::where('user_id', $user->id)->where('attendance_id', $attendance->id)->where('status', 0)->first();
         }
 
         return view('attendance.staff_show', [
@@ -214,7 +214,7 @@ class StaffAttendanceController extends Controller
         $application = null;
         if ($attendance) {
             // 修正申請データを work_date で検索（※ attendance_id が NULL のケースにも対応）
-            $application = Attendance_application::where('user_id', $user->id)
+            $application = AttendanceApplication::where('user_id', $user->id)
                 ->where('work_date', $workDate)
                 ->where('status', 0)
                 ->first();
@@ -336,7 +336,7 @@ class StaffAttendanceController extends Controller
         }
 
         // 通常処理
-        Attendance_application::create([
+        AttendanceApplication::create([
             // 'attendance_id' => $attendance->id,
             'attendance_id' => $attendance->exists ? $attendance->id : null,
             'user_id' => Auth::id(),
@@ -371,10 +371,10 @@ class StaffAttendanceController extends Controller
         $status = $request->input('status', 'waiting'); // ← デフォルトで waiting を指定！
 
 
-        $query = Attendance_Application::where('user_id', Auth::id());
+        $query = AttendanceApplication::where('user_id', Auth::id());
 
         if ($status === 'waiting') {
-                $waitingApplications = Attendance_Application::where('status', 0)
+                $waitingApplications = AttendanceApplication::where('status', 0)
                     ->with('user', 'attendance') // 必要に応じてリレーションも
                     ->get();
 
@@ -385,7 +385,7 @@ class StaffAttendanceController extends Controller
             }
 
             if ($status === 'approved') {
-                $approvedApplications = Attendance_Application::where('user_id', Auth::id()) // 👈 追加
+                $approvedApplications = AttendanceApplication::where('user_id', Auth::id()) // 👈 追加
                     ->where('status', 1)
                     ->with('user', 'attendance')
                     ->get();
@@ -415,7 +415,7 @@ class StaffAttendanceController extends Controller
         $status = $request->input('status', 'waiting');
 
         // クエリビルダ作成
-        $query = Attendance_Application::with('user', 'attendance');
+        $query = AttendanceApplication::with('user', 'attendance');
 
         // 管理者でなければログインユーザーに絞る
         if (!$isAdmin) {

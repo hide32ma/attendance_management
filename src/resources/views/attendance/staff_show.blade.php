@@ -91,7 +91,7 @@
 
 
         <!-- 申請理由 -->
-        <label>申請理由 :</label>
+        <label>備考 :</label>
         <textarea name="reason">{{ old('reason', $attendance->reason ?? '') }}</textarea>
 
 
@@ -201,7 +201,7 @@
 
 
         <!-- 申請理由 -->
-        <label>申請理由 :</label>
+        <label>備考 :</label>
         <textarea name="reason"></textarea>
 
         @error('reason')
@@ -230,26 +230,37 @@
 
 <!-- 名前 -->
 <div>
-    <label>名前 {{ auth()->user()->name }}</label>
+    <label>名前：{{ auth()->user()->name }}</label>
 </div>
 
 <!-- 日付 -->
 <div>
-    <label>日付 {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
+    <label>日付： {{ \Carbon\Carbon::parse($attendance->work_date ?? $workDate)->format('Y年n月j日') }}</label>
 </div>
 
 
-<div>出勤・退勤 {{ \Carbon\Carbon::parse($application->after_clock_in)->format('H:i') }}
+<div>出勤・退勤：
+    @if ($application->before_clock_in && $application->before_clock_out)
+    {{ \Carbon\Carbon::parse($application->before_clock_in)->format('H:i') }}
     〜
-    {{ \Carbon\Carbon::parse($application->after_clock_out)->format('H:i') }}
+    {{ \Carbon\Carbon::parse($application->before_clock_out)->format('H:i') }}
+    @else
+    〜〜
+    @endif
 </div>
 
-<div>休憩
-    @foreach (json_decode($application->after_breaks_json, true) as $break)
-    {{ $break['start'] }}〜{{ $break['end'] }}
+<div>休憩：
+    @if ($application->before_breaks_json)
+    @foreach (json_decode($application->before_breaks_json, true) as $break)
+    {{ \Carbon\Carbon::parse($break['start'])->format('H:i') }}〜{{ \Carbon\Carbon::parse($break['end'])->format('H:i') }}
+    <br>
     @endforeach
+    @else
+    -
+    @endif
 </div>
-<div>備考{{ $application->reason }}</div>
+
+<div>備考： {{ $application->reason }}</div>
 
 <div class="text-danger">※承認待ちのため修正はできません。</div>
 

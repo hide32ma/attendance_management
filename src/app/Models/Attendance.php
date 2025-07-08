@@ -53,6 +53,6 @@ class Attendance extends Model
 
     public function application()
     {
-        return $this->hasMany('App\Models\Attendance_Application');
+        return $this->hasMany('App\Models\AttendanceApplication');
     }
 }

@@ -7,7 +7,8 @@ use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
 
-use App\Models\Attendance_application;
+use App\Models\AttendanceApplication;
+
 
 use Illuminate\Support\MessageBag;
 
@@ -54,7 +55,7 @@ class AdminAttendanceController extends Controller
 
         $application = null;
         if ($attendance) {
-            $application = Attendance_application::where('user_id', $userId)
+            $application = AttendanceApplication::where('user_id', $userId)
                 ->where('attendance_id', $attendance->id)
                 ->where('status', 0)
                 ->first();
@@ -127,7 +128,7 @@ class AdminAttendanceController extends Controller
         $date = $request->input('date');
 
         // 申請データを取得
-        $application = Attendance_Application::where('user_id', $request->user_id)
+        $application = AttendanceApplication::where('user_id', $request->user_id)
             ->whereHas('attendance', function ($query) use ($request) {
                 $query->whereDate('work_date', $request->date);
             })
