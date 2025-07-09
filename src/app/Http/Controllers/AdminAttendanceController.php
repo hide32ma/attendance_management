@@ -6,12 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
-
 use App\Models\AttendanceApplication;
-
-
 use Illuminate\Support\MessageBag;
-
 use Illuminate\Support\Facades\Validator;
 
 class AdminAttendanceController extends Controller

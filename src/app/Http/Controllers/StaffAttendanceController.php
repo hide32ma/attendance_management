@@ -3,23 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
-
 use App\Models\AttendanceApplication;
-
 use Carbon\Carbon;
-
 use Carbon\CarbonPeriod;
-
 // Authファサードを読み込む
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Support\MessageBag;
-
 use Illuminate\Support\Facades\Redirect;
 
 class StaffAttendanceController extends Controller
