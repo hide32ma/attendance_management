@@ -8,11 +8,6 @@ use App\Models\User;
 // Attendanceモデルを読み込む
 use App\Models\Attendance;
 use Carbon\Carbon;
-
-
-
-
-
 // StaffLoginRequestを読み込む
 use App\Http\Requests\StaffLoginRequest;
 
@@ -37,37 +32,16 @@ class StaffAuthController extends Controller
             ->with('user')
             ->get();
 
+        Carbon::setLocale('ja');
+        $nowDateTime = Carbon::now()->translatedFormat('Y年n月j日（D）') . "\n" . Carbon::now()->format('H:i');
+
         return view('attendance.staff_start', [
             'attendances' => $attendances,
-            'today' => $today
+            'today' => $today,
+            'nowDateTime' => $nowDateTime,
         ]);
 
-
-
-
-    // ↓これだと、毎日の出勤ステータスが表示されてしまうのでNG
-
-    // {
-    // $attendances = Attendance::where('user_id', auth()->id())->with('user')->get();
-    // return view('attendance.staff_start', ['attendances' => $attendances]);
-    // }
-
-
-    // 当日の出勤データのみが表示されるOK
-    // ダミーデータでもログインできる
-    // 日付が変わるとログインエラーになる
-
-    // $today = Carbon::today();
-
-    // $attendances = Attendance::where('user_id', auth()->id())
-    // ->where(function ($query) use ($today) {
-    // $query->whereDate('work_date', $today)->orWhereNull('work_date');
-    // })->with('user')->get();
-
-    // return view('attendance.staff_start', ['attendances' => $attendances]);
-}
-
-
+    }
 
     // loginアクションで(LoginRequest.phpを読み込んで)auth/staff_login.blade.phpを表示する
     public function login(StaffLoginRequest $request)
@@ -75,21 +49,11 @@ class StaffAuthController extends Controller
         return view('auth.staff_login');
     }
 
-    // registerアクション(Fortify)でstaff_register.blade.php(新規登録画面)のフォームリクエストを読み込む　読み込んだデータをUserテーブルに登録する
+    // registerアクション(Fortify)でstaff_register.blade.php(新規登録画面)のフォームリクエストを読み込む 読み込んだデータをUserテーブルに登録する
     // COACHTECH Laravel演習 1-5 入力内容確認ページの送信 (保存)
     public function register(Request $request)
     {
         $user = $request->only(['name','email','password']);
         user::create($user);
     }
-
-
-
-
-
-
-
-
-
-
 }

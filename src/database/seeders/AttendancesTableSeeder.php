@@ -17,16 +17,16 @@ class AttendancesTableSeeder extends Seeder
     public function run()
     {
         $users = User::all();
-
-        $startDate = Carbon::create(2025, 6, 1);
-        $endDate = Carbon::create(2025, 8, 31);
+        // 2025年1月1日〜12月31日までのデータを作成
+        $startDate = Carbon::create(2025, 1, 1);
+        $endDate = Carbon::create(2025, 12, 31);
 
         $period = \Carbon\CarbonPeriod::create($startDate, $endDate);
         $dates = collect($period)->map(fn($date) => $date->format('Y-m-d'));
 
         foreach ($users as $user) {
             // 日付をランダムに並び替え
-            $randomDates = $dates->shuffle()->take(30); // 各ユーザー30日分
+            $randomDates = $dates->shuffle()->take(240); // 各ユーザー240日分
 
             foreach ($randomDates as $dateStr) {
                 $date = Carbon::parse($dateStr);
@@ -36,7 +36,7 @@ class AttendancesTableSeeder extends Seeder
                     'work_date' => $dateStr,
                     'clock_in' => $date->copy()->setTime(rand(7, 9), rand(0, 59)),
                     'clock_out' => $date->copy()->setTime(rand(17, 19), rand(0, 59)),
-                    'status' => rand(0, 1),
+                    'status' => rand(0, 3),
                 ]);
             }
         }
