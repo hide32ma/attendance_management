@@ -10,16 +10,16 @@
 
 ### 📦 クローン
 
-```bash
+
 git clone https://github.com/hide32ma/attendance_management.git
 cd attendance_management
+
 🐳 Docker起動
-bash
-コードをコピーする
+
 docker-compose up -d --build
+
 ⚙️ Laravelセットアップ（Dockerコンテナ内で）
-bash
-コードをコピーする
+
 docker-compose exec php bash
 
 # 以下、コンテナ内で実行
@@ -28,9 +28,8 @@ cp .env.example .env
 php artisan key:generate
 php artisan migrate
 php artisan db:seed
+
 🧪 テスト実行方法（PHPUnit）
-bash
-コードをコピーする
 php artisan test
 # 特定のテストを実行する場合（例：ClockOutTest）
 php artisan test --filter ClockOutTest
