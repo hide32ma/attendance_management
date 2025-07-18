@@ -37,16 +37,22 @@ php artisan db:seed
 
 ### 🧪 テスト実行方法（PHPUnit）
 php artisan test
-特定のテストを実行する場合（例：ClockOutTest）
+
+### 特定のテストを実行する場合（例：ClockOutTest）
 php artisan test --filter ClockOutTest
+
 テスト結果はPASS/FAILで出力され、実装内容が正しく動作するかを確認できます。
 
 ### 🛠 使用技術
 項目	バージョン
 Laravel	8.75以上
+
 PHP	8.0(7.3以上対応)
+
 MySQL	8.0.26
+
 Docker	20.x以上
+
 docker-compose	1.29以上
 
 ### 🔗 アクセスURL（ローカル開発環境）
