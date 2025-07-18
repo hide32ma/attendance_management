@@ -23,7 +23,7 @@ docker-compose up -d --build
 
 docker-compose exec php bash
 
-以下、コンテナ内で実行
+#以下、コンテナ内で実行
 composer install
 cp .env.example .env
 php artisan key:generate
