@@ -38,11 +38,11 @@ php artisan test --filter ClockOutTest
 
 ### 🛠 使用技術
 項目	バージョン
-Laravel	8.75　以上
-PHP	8.0　(7.3以上対応)
+Laravel	8.75以上
+PHP	8.0(7.3以上対応)
 MySQL	8.0.26
-Docker	20.x 以上
-docker-compose	1.29 以上
+Docker	20.x以上
+docker-compose	1.29以上
 
 ### 🔗 アクセスURL（ローカル開発環境）
 アプリ本体 : http://localhost
