@@ -35,6 +35,12 @@ php artisan migrate
 
 php artisan db:seed
 
+### 🧪 テストアカウント
+name:Cyril Krajcik MD
+email:iokon@example.com
+password:11111111
+
+
 ### 🧪 テスト実行方法（PHPUnit）
 php artisan test
 
