@@ -52,7 +52,22 @@ name:Katrina Smitham
 email:abby.bahringer@example.org
 
 
-password:11111111（パスワードは全てのユーザー同じ）
+password:11111111（パスワードは全ての一般ユーザーが同じ）
+
+（上記含め、10個のテストアカウントあり）
+
+
+### 🧪 テストアカウント（管理者）
+
+email:zaria90@example.com
+
+email:levi.considine@example.org
+
+email:ernie46@example.net
+
+password:11111111（パスワードは全ての管理者が同じ）
+
+（上記含め、10個のテストアカウントあり）
 
 
 ### 🧪 テスト実行方法（PHPUnit）
