@@ -36,8 +36,11 @@ php artisan migrate
 php artisan db:seed
 
 ### 🧪 テストアカウント
+
 name:Cyril Krajcik MD
+
 email:iokon@example.com
+
 password:11111111
 
 
