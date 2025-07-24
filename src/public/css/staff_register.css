@@ -1,0 +1,132 @@
+.authenticate__center {
+    position: absolute;
+    left: 684px;
+    width: 144px;
+    top: 161px;
+    height: 47.58px;
+}
+
+.entry__user__name {
+    position: absolute;
+    font-weight: 700;
+    top: 90px;
+    left: -280px;
+}
+
+.input_user__name {
+    font-size: 24px;
+    position: absolute;
+    top: 120px;
+    left: -280px;
+    width: 680px;
+    height: 45px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.form__name__error {
+    position: absolute;
+    top: 180px;
+    left: -280px;
+    color: red;
+}
+
+.entry__mail__address {
+    position: absolute;
+    font-weight: 700;
+    top: 210px;
+    left: -280px;
+}
+
+.input__mail__address {
+    font-size: 24px;
+    position: absolute;
+    top: 240px;
+    left: -280px;
+    width: 680px;
+    height: 45px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.form__address__error {
+    position: absolute;
+    top: 300px;
+    left: -280px;
+    color: red;
+}
+
+.entry__password {
+    position: absolute;
+    font-weight: 700;
+    top: 330px;
+    left: -280px;
+}
+
+.input__password {
+    font-size: 24px;
+    position: absolute;
+    top: 360px;
+    left: -280px;
+    width: 680px;
+    height: 45px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.form__password__error {
+    position: absolute;
+    top: 420px;
+    left: -280px;
+    color: red;
+}
+
+.entry__password__confirm {
+    position: absolute;
+    font-weight: 700;
+    top: 450px;
+    left: -280px;
+}
+
+.input__password__confirm {
+    font-size: 24px;
+    position: absolute;
+    top: 480px;
+    left: -280px;
+    width: 680px;
+    height: 45px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.auth-registration {
+    position: absolute;
+    top: 580px;
+    left: -280px;
+    width: 680px;
+    height: 65.25px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+.btn--big {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    position: absolute;
+    top: 25%;
+    left: 284px;
+    color: #FFFFFF;
+    background-color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.login__link {
+    position: absolute;
+    top: 702px;
+    text-decoration: none;
+}

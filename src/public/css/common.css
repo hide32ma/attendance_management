@@ -1,0 +1,86 @@
+/* デフォルト(PC全般) */
+body {
+    width: 100%;
+    max-width: 1512px;
+    margin: 0;
+    position: relative;
+}
+
+/* 1400px〜1540pxのPC表示を崩さないように調整 */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    body {
+        max-width: 1540px;
+    }
+}
+
+/* 768px〜850pxのタブレット表示を崩さないように調整 */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    body {
+        max-width: 850px;
+        /* タブレット向けの余白調整 */
+        padding: 15px;
+    }
+}
+
+.header {
+    width: 1515px;
+    height: 82px;
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* headerに謎の余白ができた為、調べた結果の実行 */
+.header-heading {
+    margin: 0;
+}
+
+
+.header-nav_mypage {
+    position: absolute;
+    left: 1230px;
+    width: 135px;
+    height: 47px;
+}
+
+.header-link_mypage {
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29.05px;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+    text-decoration: none;
+    position: absolute;
+    right: 50%;
+    top: 25%;
+    transform: translateX(50%);
+}
+
+.header-nav_logout {
+    position: absolute;
+    left: 1090px;
+    width: 135px;
+    height: 47px;
+}
+
+.header-nav_logout-button {
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29.05px;
+    letter-spacing: 0%;
+    color: #FFFFFF;
+    border: none;
+    position: absolute;
+    right: 50%;
+    top: 25%;
+    transform: translateX(50%);
+    background-color: #000000;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+}

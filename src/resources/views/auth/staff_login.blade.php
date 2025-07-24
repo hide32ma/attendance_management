@@ -9,33 +9,33 @@
 <!-- 本体 -->
 @section('content')
 
-<div>ログイン画面（一般ユーザー）</div>
-
 
 <!-- authenticate = 認証する -->
 <!-- Fortify -->
-<form class="authenticate center" action="/login" method="post">
+<form class="authenticate__center" action="/login" method="post">
     @csrf
     <h1 class="page__title">ログイン</h1>
-    <label class="entry__name" for="mail">メールアドレス</label>
-    <input class="input" name="email" id="mail" type="email" value="{{ old('email') }}">
-    <div class="form__error">
+    <label class="entry__mail__address" for="mail">メールアドレス</label>
+    <input class="input__mail__address" name="email" id="mail" type="email" value="{{ old('email') }}">
+    <div class="form__address__error">
         @error('email')
         {{ $message }}
         @enderror
     </div>
-    <label class="entry__name" for="password">パスワード</label>
-    <input class="input" name="password" id="password" type="password">
-    <div class="form__error">
+    <label class="entry__password" for="password">パスワード</label>
+    <input class="input__password" name="password" id="password" type="password">
+    <div class="form__password__error">
         @error('password')
         {{ $message }}
         @enderror
     </div>
-    <button class="btn btn--big">ログインする</button>
-    <a href="/register" class="link">会員登録はこちら</a>
+    <div class="auth-login">
+        <button class="btn--big">ログインする</button>
+    </div>
+    <a href="/register" class="register__link">会員登録はこちら</a>
 </form>
 
-<a href="/admin/login" class="link">管理者ログインはこちら</a>
+<a href="/admin/login" class="admin__link">管理者ログインはこちら</a>
 
 
 
