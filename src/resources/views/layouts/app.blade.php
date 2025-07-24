@@ -20,7 +20,7 @@
     <div class="app">
         <header class="header">
             <h1 class="header-heading">
-                <!-- <a href=""> -->
+                <a href="/">
                 <img src="{{ asset('img/logo.svg') }}" alt="COACHTECH">
                 </a>
             </h1>
