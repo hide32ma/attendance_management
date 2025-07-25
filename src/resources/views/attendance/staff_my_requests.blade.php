@@ -89,7 +89,6 @@
         <tr>
             <td>{{ $app->status === 0 ? '承認待ち' : ($app->status === 1 ? '承認済み' : '不明') }}</td>
             <td>{{ $app->user->name }}</td>
-            <!-- <td>{{ optional($app->attendance)->work_date }}</td> -->
             <td>{{ \Carbon\Carbon::parse(optional($app->attendance)->work_date)->format('Y/m/d') }}</td>
             <td>{{ $app->reason }}</td>
             <td>{{ $app->created_at->format('Y/m/d') }}</td>
