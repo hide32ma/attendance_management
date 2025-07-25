@@ -1,7 +1,6 @@
 .authenticate__center {
     position: absolute;
     left: 684px;
-    width: 144px;
     top: 161px;
     height: 47.58px;
     white-space: nowrap;
@@ -9,7 +8,9 @@
 
 .page__title {
     position: absolute;
-    left: -40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-25%, -50%);
 }
 
 .entry__mail__address {
@@ -74,14 +75,14 @@
 
 .btn--big {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 26px;
     line-height: 100%;
     letter-spacing: 0%;
-    position: absolute;
-    top: 25%;
-    left: 230px;
     color: #FFFFFF;
     background-color: black;
     border: none;

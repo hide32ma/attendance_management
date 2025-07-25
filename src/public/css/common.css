@@ -23,7 +23,7 @@ body {
 }
 
 .header {
-    width: 1515px;
+    width: 1512px;
     height: 82px;
     background-color: #000000;
     display: flex;
@@ -36,51 +36,81 @@ body {
     margin: 0;
 }
 
-
-.header-nav_mypage {
+.staff_attendance_link {
     position: absolute;
-    left: 1230px;
-    width: 135px;
-    height: 47px;
-}
-
-.header-link_mypage {
-    white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29.05px;
-    letter-spacing: 0%;
-    color: #FFFFFF;
+    text-align: center;
+    width: 48px;
+    height: 29px;
+    top: 25px;
+    left: 1020px;
+    color: white;
     text-decoration: none;
-    position: absolute;
-    right: 50%;
-    top: 25%;
-    transform: translateX(50%);
 }
 
-.header-nav_logout {
+.staff_attendance_list_link {
     position: absolute;
-    left: 1090px;
-    width: 135px;
-    height: 47px;
+    text-align: center;
+    width: 96px;
+    height: 29px;
+    top: 25px;
+    left: 1100px;
+    color: white;
+    text-decoration: none;
 }
 
-.header-nav_logout-button {
-    white-space: nowrap;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29.05px;
-    letter-spacing: 0%;
-    color: #FFFFFF;
+.staff_application__link {
+    position: absolute;
+    text-align: center;
+    width: 48px;
+    height: 29px;
+    top: 25px;
+    left: 1228px;
+    color: white;
+    text-decoration: none;
+}
+
+.admin_attendance_link {
+    position: absolute;
+    text-align: center;
+    width: 70px;
+    height: 29px;
+    top: 25px;
+    left: 1000px;
+    color: white;
+    text-decoration: none;
+}
+
+.admin_staff_list_link {
+    position: absolute;
+    text-align: center;
+    width: 96px;
+    height: 29px;
+    top: 25px;
+    left: 1100px;
+    color: white;
+    text-decoration: none;
+}
+
+.admin_application__link {
+    position: absolute;
+    text-align: center;
+    width: 48px;
+    height: 29px;
+    top: 25px;
+    left: 1228px;
+    color: white;
+    text-decoration: none;
+}
+
+.logout_button {
+    position: absolute;
+    width: 120px;
+    height: 29px;
+    top: 23px;
+    left: 1300px;
+    background: none;
     border: none;
-    position: absolute;
-    right: 50%;
-    top: 25%;
-    transform: translateX(50%);
-    background-color: #000000;
-    padding: 0;
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-    text-decoration: none;
 }

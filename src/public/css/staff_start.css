@@ -1,0 +1,112 @@
+.user_status {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    top: 298px;
+    left: 726px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #696969;
+    border-radius: 50px;
+    background-color: #C8C8C8;
+}
+
+.user_name {
+    position: absolute;
+    text-align: center;
+    width: 160px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.attendance_btn {
+    position: absolute;
+    text-align: center;
+    width: 221px;
+    top: 644px;
+    left: 646px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+    border-radius: 20px;
+    background-color: #000000;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.break_in_btn {
+    position: absolute;
+    text-align: center;
+    width: 221px;
+    top: 644px;
+    left: 797px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: black;
+    border-radius: 20px;
+    background-color: white;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.leaving_work_btn {
+    position: absolute;
+    text-align: center;
+    width: 221px;
+    top: 644px;
+    left: 494px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+    border-radius: 20px;
+    background-color: #000000;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.break_out_btn {
+    position: absolute;
+    text-align: center;
+    width: 221px;
+    top: 644px;
+    left: 646px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: black;
+    border-radius: 20px;
+    background-color: white;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.alert_success {
+    position: absolute;
+    text-align: center;
+    width: 332px;
+    top: 580px;
+    left: 600px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    white-space: nowrap;
+}
+
+.date_time {
+    position: absolute;
+    text-align: center;
+    width: 332px;
+    top: 361px;
+    left: 590px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    white-space: nowrap;
+}
+
