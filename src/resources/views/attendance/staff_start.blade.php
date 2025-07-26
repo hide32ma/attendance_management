@@ -21,10 +21,10 @@
             <div class="user_status">{{ $attendance->status_label }}</div>
         </td>
 
-        <td>
+        <!-- <td> -->
             <!-- ログインユーザー名を表示 -->
-            <div class="user_name">ログインユーザー名：{{ $attendance->user->name }}</div>
-        </td>
+            <!-- <div class="user_name">ログインユーザー名：{{ $attendance->user->name }}</div> -->
+        <!-- </td> -->
     </tr>
 
     <!-- 出勤ボタン -->
