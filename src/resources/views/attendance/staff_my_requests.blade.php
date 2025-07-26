@@ -12,16 +12,23 @@
 <!-- 管理者(admin)ログイン中 -->
 @if (Auth::guard('admin')->check())
 
-<h2>申請一覧（管理者）</h2>
+<h2>申請一覧</h2>
 
-<div class="status-links" style="margin-bottom: 10px;">
-    <a href="{{ route('staff.attendance.myRequest', ['status' => 'waiting']) }}">承認待ち</a> |
-    <a href="{{ route('staff.attendance.myRequest', ['status' => 'approved']) }}">承認済み</a>
+<div class="status-links">
+    <a href="{{ route('staff.attendance.myRequest', ['status' => 'waiting']) }}"
+        class="{{ $status === 'waiting' ? 'active' : '' }}">
+        承認待ち
+    </a> |
+    <a href="{{ route('staff.attendance.myRequest', ['status' => 'approved']) }}"
+        class="{{ $status === 'approved' ? 'active' : '' }}">
+        承認済み
+    </a>
 </div>
 
 
+
 @if ($status === 'waiting')
-<h3>承認待ち</h3>
+
 <table class="application-table">
     <thead>
         <tr>
@@ -72,7 +79,7 @@
 @endif
 
 @if ($status === 'approved')
-<h3>承認済み</h3>
+
 <table class="application-table">
     <thead>
         <tr>
@@ -107,15 +114,20 @@
 
 <h2>申請一覧</h2>
 
-<div class="status-links" style="margin-bottom: 10px;">
-    <a href="{{ route('staff.attendance.myRequest', ['status' => 'waiting']) }}">承認待ち</a> |
-    <a href="{{ route('staff.attendance.myRequest', ['status' => 'approved']) }}">承認済み</a>
+<div class="status-links">
+    <a href="{{ route('staff.attendance.myRequest', ['status' => 'waiting']) }}"
+        class="{{ $status === 'waiting' ? 'active' : '' }}">
+        承認待ち
+    </a> |
+    <a href="{{ route('staff.attendance.myRequest', ['status' => 'approved']) }}"
+        class="{{ $status === 'approved' ? 'active' : '' }}">
+        承認済み
+    </a>
 </div>
 
 
 <table class="application-table">
     @if ($status === 'waiting')
-    <h3>承認待ち</h3>
     <table class="application-table">
         <thead>
             <tr>
@@ -143,7 +155,6 @@
     @endif
 
     @if ($status === 'approved')
-    <h3>承認済み</h3>
     <table class="application-table">
         <thead>
             <tr>

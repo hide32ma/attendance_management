@@ -1,0 +1,44 @@
+.admin-staff-list__title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 40px 0 20px;
+}
+
+.admin-staff-list__table {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.admin-staff-list__table th,
+.admin-staff-list__table td {
+    text-align: center;
+    padding: 14px 12px;
+    font-size: 14px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.admin-staff-list__table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+.admin-staff-list__table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-staff-list__table a {
+    color: #333;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-staff-list__table a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,77 @@
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 16px 24px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+thead {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+a {
+    color: #4b00ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.status-links a {
+    color: black;
+    /* 通常時の色 */
+    margin: 0 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.status-links a.active {
+    color: red;
+    /* 押している方のリンク色 */
+}
+
+.status-links {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.status-links a {
+    color: black;
+    margin: 0 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.status-links a.active {
+    color: red;
+}
+
+

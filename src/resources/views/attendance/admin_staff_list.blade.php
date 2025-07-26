@@ -10,10 +10,9 @@
 @section('content')
 
 
-<h2>スタッフ一覧</h2>
+<h2 class="admin-staff-list__title">スタッフ一覧</h2>
 
-
-<table>
+<table class="admin-staff-list__table">
     <thead>
         <tr>
             <th>名前</th>
@@ -31,5 +30,6 @@
         @endforeach
     </tbody>
 </table>
+
 
 @endsection

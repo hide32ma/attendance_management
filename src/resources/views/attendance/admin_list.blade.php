@@ -9,13 +9,13 @@
 <!-- 本体 -->
 @section('content')
 
-<h2>{{ \Carbon\Carbon::parse($workDate)->format('Y年n月j日') }}の勤怠</h2>
+<h2 class="admin-attendance-list__title">{{ \Carbon\Carbon::parse($workDate)->format('Y年n月j日') }}の勤怠</h2>
 
-<div>
+<div class="admin-attendance-list__nav">
     <a href="{{ route('admin.attendance.list', ['date' => $prevDate]) }}">← 前日</a>
 
     @php
-        $baseUrl = route('admin.attendance.list');
+    $baseUrl = route('admin.attendance.list');
     @endphp
 
     <input type="date" value="{{ $workDate }}"
@@ -24,8 +24,7 @@
     <a href="{{ route('admin.attendance.list', ['date' => $nextDate]) }}">翌日 →</a>
 </div>
 
-
-<table>
+<table class="admin-attendance-list__table">
     <thead>
         <tr>
             <th>名前</th>
@@ -39,50 +38,31 @@
     <tbody>
         @foreach ($users as $user)
         @php
-            $attendance = $attendances->firstWhere('user_id', $user->id);
-            $targetDateCarbon = \Carbon\Carbon::parse($targetDate);
+        $attendance = $attendances->firstWhere('user_id', $user->id);
         @endphp
         <tr>
             <td>{{ $user->name }}</td>
-            <td>
-                {{ $attendance && $attendance->clock_in
-                        ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')
-                        : '' }}
-            </td>
-            <td>
-                {{ $attendance && $attendance->clock_out
-                        ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i')
-                        : '' }}
-            </td>
+            <td>{{ $attendance && $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}</td>
+            <td>{{ $attendance && $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}</td>
             <td>
                 @if ($attendance && $attendance->breakTimes->isNotEmpty())
                 @php
-                $breakMinutes = $attendance->breakTimes->sum(function ($break) {
-                return \Carbon\Carbon::parse($break->break_end)->diffInMinutes(\Carbon\Carbon::parse($break->break_start));
-                });
+                $breakMinutes = $attendance->breakTimes->sum(fn($b) => \Carbon\Carbon::parse($b->break_end)->diffInMinutes(\Carbon\Carbon::parse($b->break_start)));
                 echo floor($breakMinutes / 60) . ':' . str_pad($breakMinutes % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
-                @else
-                <!-- --- -->
                 @endif
             </td>
             <td>
                 @if ($attendance && $attendance->clock_in && $attendance->clock_out)
                 @php
                 $workedMinutes = \Carbon\Carbon::parse($attendance->clock_in)->diffInMinutes(\Carbon\Carbon::parse($attendance->clock_out));
-                $breakMinutes = $attendance->breakTimes->sum(function ($break) {
-                return \Carbon\Carbon::parse($break->break_end)->diffInMinutes(\Carbon\Carbon::parse($break->break_start));
-                });
+                $breakMinutes = $attendance->breakTimes->sum(fn($b) => \Carbon\Carbon::parse($b->break_end)->diffInMinutes(\Carbon\Carbon::parse($b->break_start)));
                 $total = $workedMinutes - $breakMinutes;
                 echo floor($total / 60) . ':' . str_pad($total % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
-                @else
-                <!-- --- -->
                 @endif
             </td>
-            <td>
-                <a href="{{ route('admin.attendance.show', ['user_id' => $user->id, 'date' => $workDate]) }}">詳細</a>
-            </td>
+            <td><a href="{{ route('admin.attendance.show', ['user_id' => $user->id, 'date' => $workDate]) }}">詳細</a></td>
         </tr>
         @endforeach
     </tbody>

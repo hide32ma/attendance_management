@@ -1,0 +1,227 @@
+.admin-attendance__title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 40px 0 10px;
+}
+
+.admin-attendance__subtitle {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.admin-attendance__form {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.admin-attendance__card {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.admin-attendance__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.admin-attendance__label {
+    flex: 0 0 100px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.admin-attendance__value {
+    flex: 1;
+    font-size: 14px;
+}
+
+.admin-attendance__input {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    max-width: 140px;
+}
+
+.admin-attendance__textarea {
+    flex: 1;
+    min-height: 60px;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.admin-attendance__button-row {
+    justify-content: flex-end;
+}
+
+.admin-attendance__button {
+    background-color: black;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.admin-attendance__message {
+    color: green;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.admin-attendance__error {
+    color: red;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+
+/* 一般ユーザー(staff)ログイン中はこちら */
+.attendance-form {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: 'Inter', sans-serif;
+}
+
+/* タイトル */
+.attendance-form__title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* 各行（名前、日付、出勤退勤など） */
+.attendance-form__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* ラベル */
+.attendance-form__label {
+    flex: 0 0 100px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 値（名前や日付表示用） */
+.attendance-form__value {
+    flex: 1;
+    font-size: 14px;
+}
+
+/* 入力欄 */
+.attendance-form__input {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    max-width: 200px;
+}
+
+/* 備考テキストエリア */
+.attendance-form__textarea {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* ボタン */
+.attendance-form__button {
+    margin-top: 24px;
+    background-color: black;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* メッセージやエラー */
+.attendance-form__message,
+.attendance-form__error {
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.attendance-form__message {
+    color: green;
+}
+
+.attendance-form__error {
+    color: red;
+}
+
+
+
+
+/* 修正申請が存在する場合はこちら */
+
+.readonly-attendance__title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 40px 0 20px;
+}
+
+.readonly-attendance__card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 30px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.readonly-attendance__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.readonly-attendance__label {
+    flex: 0 0 100px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.readonly-attendance__value {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.readonly-attendance__notice {
+    color: #e53935;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
