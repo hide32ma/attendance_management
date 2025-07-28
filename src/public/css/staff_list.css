@@ -59,3 +59,7 @@ a:hover {
     margin: 20px 0;
     font-weight: 500;
 }
+
+.calendar-nav a {
+    text-decoration: none;
+}

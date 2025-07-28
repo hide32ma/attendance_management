@@ -16,6 +16,12 @@
     overflow: hidden;
 }
 
+/* 強く指定している */
+.admin-staff-list__table a {
+    color: blue !important;
+    text-decoration: underline !important;
+}
+
 .admin-staff-list__table th,
 .admin-staff-list__table td {
     text-align: center;

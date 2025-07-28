@@ -36,6 +36,8 @@ body {
     margin: 0;
 }
 
+
+
 .staff_attendance_link {
     position: absolute;
     text-align: center;
@@ -44,7 +46,7 @@ body {
     top: 25px;
     left: 1020px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .staff_attendance_list_link {
@@ -55,7 +57,7 @@ body {
     top: 25px;
     left: 1100px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .staff_application__link {
@@ -66,7 +68,7 @@ body {
     top: 25px;
     left: 1228px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .admin_attendance_link {
@@ -77,7 +79,7 @@ body {
     top: 25px;
     left: 1000px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .admin_staff_list_link {
@@ -88,7 +90,7 @@ body {
     top: 25px;
     left: 1100px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .admin_application__link {
@@ -99,7 +101,7 @@ body {
     top: 25px;
     left: 1228px;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .logout_button {

@@ -20,6 +20,11 @@
     align-items: center;
     margin-bottom: 20px;
     padding: 0 10px;
+    text-decoration: none;
+}
+
+.admin-attendance-nav a {
+    text-decoration: none;
 }
 
 .admin-attendance-table {
@@ -72,4 +77,9 @@
 
 .admin-attendance-export-btn:hover {
     background-color: #222;
+}
+
+td a {
+    color: blue !important;
+    text-decoration: underline !important;
 }
